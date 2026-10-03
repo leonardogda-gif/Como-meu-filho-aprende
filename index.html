@@ -798,31 +798,90 @@ function integ(id){
   const c=kid(id); CUR=c;
   const av=lastF(c).avg, r=c.estilo.res, nome=esc(c.nome), p=perfil(r.styles);
   const has = k => p.main.includes(k);
-  const gk=gaKind(r.ga), tch=topChans(r.ch);
-  const tl = k=>TRAITS[k].nome;
+  const gk=gaKind(r.ga), tch=topChans(r.ch), s1=p.main[0], S=STY[s1];
+  const tl = k=>TRAITS[k].nome, L = k=>LVL(av[k]).k; // 0 vale observar, 1 algumas situações, 2 frequência
+  const pausa = r.env.mov===0;
+
+  /* 1. Hipóteses: para o que vale observar e para o que aparece só às vezes */
   const RULES = [
-    {t:"det",s:"cr",c:()=>has("cr"),txt:"Se você percebe dificuldade em manter tarefas longas, uma hipótese para experimentar é que o formato não esteja combinando com o perfil criativo e aventureiro. Tente transformar a tarefa em um pequeno desafio ou missão e deixar a criança escolher o caminho."},
+    {t:"det",s:"cr",c:()=>has("cr"),txt:"Se você percebe dificuldade em manter tarefas longas, uma hipótese é que o formato não esteja combinando com o perfil criativo e aventureiro. Tente transformar a tarefa em um pequeno desafio ou missão e deixar a criança escolher o caminho."},
     {t:"det",s:"ar",c:()=>has("ar"),txt:"Se você percebe que {ela} desiste quando está sozinh{o}, experimente estudar ao lado e reconhecer o esforço em voz alta. Para o perfil sensível e relacional, companhia costuma sustentar a persistência."},
     {t:"det",s:"as",c:()=>has("as"),txt:"Se você percebe que {ela} larga atividades no meio, uma hipótese é que a tarefa não pareça fazer sentido. Experimente explicar para que serve e oferecer um projeto longo num tema de que {ela} goste."},
     {t:"det",s:"cs",c:()=>has("cs"),txt:"Se você percebe que {ela} trava diante de tarefas grandes, experimente dividi-las em etapas com checklist. Ver o progresso marcado costuma ajudar o perfil prático e organizado a persistir."},
-    {t:"aut",s:null,c:()=>tch.includes("ci")||r.env.mov===0,txt:"Se você percebe dificuldade em ficar parad{o} e focad{o}, uma hipótese é necessidade de movimento. Experimente pausas ativas curtas e deixar estudar em pé ou manuseando algo."},
+    {t:"det",s:null,c:()=>pausa,txt:"Se você percebe que {ela} abandona tarefas longas, pode ser cansaço de ficar muito tempo na mesma coisa. Experimente blocos curtos com pausas ativas e retomar a tarefa depois, em vez de exigir tudo de uma vez."},
+    {t:"aut",s:null,c:()=>tch.includes("ci")||pausa,txt:"Se você percebe dificuldade em ficar parad{o} e focad{o}, uma hipótese é necessidade de movimento. Experimente pausas ativas curtas e deixar estudar em pé ou manuseando algo."},
     {t:"aut",s:null,c:()=>gk==="g",txt:"Se você percebe que {ela} pula de uma atividade para outra, experimente blocos curtos, uma tarefa por vez à vista na mesa e um combinado claro de quando pode trocar."},
     {t:"aut",s:"cr",c:()=>has("cr"),txt:"Se você percebe resistência às regras, experimente construir os combinados junto com a criança e oferecer escolhas dentro de limites claros."},
+    {t:"aut",s:"cs",c:()=>has("cs"),txt:"Se você percebe irritação quando algo sai do previsto, avise as mudanças com antecedência e mantenha uma rotina visível. Para o perfil prático e organizado, previsibilidade ajuda a manter a calma."},
     {t:"oti",s:"ar",c:()=>has("ar")||gk==="g",txt:"Se você percebe desânimo depois de correções, uma hipótese é que o tom esteja pesando. Experimente começar pelo que ficou bom e corrigir o trabalho, não a pessoa."},
     {t:"oti",s:null,c:()=>has("as")||has("cs"),txt:"Se você percebe frustração com erros, uma hipótese é a vontade de acertar de primeira. Experimente revisar os erros juntos como informação: onde errou, por quê e o que muda na próxima."},
+    {t:"oti",s:"cr",c:()=>has("cr"),txt:"Se você percebe que {ela} desanima quando algo não dá certo, valorize as tentativas e os caminhos diferentes que {ela} testou, não só o resultado final."},
     {t:"ent",s:null,c:()=>has("cr")||has("ar"),txt:"Se você percebe pouca animação nas atividades, experimente dar mais escolhas, incluir projetos práticos e fazer algumas atividades junto."},
     {t:"ent",s:null,c:()=>has("cs")||has("as"),txt:"Se você percebe pouca animação, experimente metas claras e a chance de aprofundar num tema preferido. O interesse costuma crescer quando a criança sente que domina o assunto."},
+    {t:"ent",s:null,c:()=>MKEYS.some(k=>r.mi[k]),txt:"Se você percebe pouca animação, experimente começar a semana por uma atividade ligada aos interesses que você marcou e só depois passar para o resto."},
     {t:"cur",s:"cs",c:()=>has("cs"),txt:"Se você percebe pouco interesse em investigar, experimente dar estrutura à curiosidade: uma pergunta por semana, com passos para pesquisar e um jeito concreto de mostrar o que descobriu."},
     {t:"cur",s:null,c:()=>gk==="a",txt:"Se você percebe que {ela} se prende às tarefas e explora pouco, experimente reservar um tempo livre, sem nota nem correção, só para investigar um assunto de interesse."},
+    {t:"cur",s:"ar",c:()=>has("ar"),txt:"Se você percebe pouca curiosidade pelos conteúdos, experimente apresentá-los pelas pessoas: quem descobriu, quem vive daquele jeito, entrevistas com alguém da família."},
     {t:"soc",s:null,c:()=>has("as")||r.env.comp===0,txt:"Se você percebe pouca vontade de trabalhar em grupo, lembre que preferir estudar por conta própria é legítimo. Experimente tarefas em dupla com papéis bem definidos."},
     {t:"soc",s:"cr",c:()=>has("cr"),txt:"Se você percebe que {ela} atropela os outros nas brincadeiras, experimente jogos cooperativos e revezar quem lidera."},
-    {t:"gra",s:null,c:()=>has("as")||has("cs"),txt:"Se você percebe pouca expressão de gratidão, pode ser que a criança sinta sem demonstrar. Experimente formas concretas: um bilhete, ajudar em uma tarefa, contar três coisas boas do dia."}
+    {t:"soc",s:"cs",c:()=>has("cs"),txt:"Se você percebe atritos quando os outros não seguem as regras, converse sobre como cada pessoa tem um jeito e combine regras antes das brincadeiras em grupo."},
+    {t:"gra",s:null,c:()=>has("as")||has("cs"),txt:"Se você percebe pouca expressão de gratidão, pode ser que a criança sinta sem demonstrar. Experimente formas concretas: um bilhete, ajudar em uma tarefa, contar três coisas boas do dia."},
+    {t:"gra",s:null,c:()=>has("cr")||has("ar"),txt:"Se você percebe pouca expressão de gratidão, experimente formas criativas: um desenho, um presente feito à mão ou uma surpresa para alguém que ajudou."}
   ];
-  const obs = TORD.filter(k=>isObs(av[k]));
-  const seen={}; const hits = RULES.filter(x=>obs.includes(x.t)&&x.c()).sort((a,b)=>av[a.t]-av[b.t]).filter(x=>{ seen[x.t]=(seen[x.t]||0)+1; return seen[x.t]===1; }).slice(0,4);
+  function pick(nivel, max){
+    const alvo = TORD.filter(k=>L(k)===nivel), seen={};
+    return RULES.filter(x=>alvo.includes(x.t)&&x.c()).sort((a,b)=>av[a.t]-av[b.t])
+      .filter(x=>{ seen[x.t]=(seen[x.t]||0)+1; return seen[x.t]<=2; }).slice(0,max);
+  }
+  const hObs = pick(0,5), hMid = pick(1,3);
+
+  /* 2. Como as habilidades e o perfil se apoiam (pontos fortes) */
+  const STRONG = [
+    {t:"det",c:()=>has("cs"),txt:"Persistência com perfil prático: projetos longos com etapas claras funcionam bem, como uma coleção, um diário de observação ou um caderno de experiências ao longo do mês."},
+    {t:"det",c:()=>has("cr"),txt:"Persistência com perfil criativo: proponha projetos de invenção que levem semanas, como construir algo do zero, e deixe {ela} decidir o caminho."},
+    {t:"det",c:()=>has("as"),txt:"Persistência com perfil lógico: pesquisas longas e aprofundadas funcionam bem. Experimente um tema por mês, com algo concreto para apresentar no final."},
+    {t:"det",c:()=>has("ar"),txt:"Persistência com perfil relacional: projetos de longo prazo feitos com outras pessoas, ou para ajudar alguém, tendem a manter {ela} engajad{o} até o fim."},
+    {t:"cur",c:()=>has("as"),txt:"Curiosidade com perfil lógico: deixe {ela} formular as próprias perguntas de pesquisa e buscar as respostas em livros e fontes."},
+    {t:"cur",c:()=>has("cr"),txt:"Curiosidade com perfil criativo: proponha investigações práticas do tipo \"e se…?\", em que {ela} testa as próprias hipóteses."},
+    {t:"cur",c:()=>has("ar"),txt:"Curiosidade com perfil relacional: entrevistas, biografias e as histórias por trás dos conteúdos são ótimas portas de entrada."},
+    {t:"cur",c:()=>has("cs"),txt:"Curiosidade com perfil prático: um caderno de perguntas com etapas para investigar transforma a curiosidade em projetos concretos."},
+    {t:"soc",c:()=>true,txt:"Boa leitura das pessoas: ensinar um irmão ou amigo o que aprendeu é uma ótima forma de revisão, e costuma ser prazeroso para {ela}."},
+    {t:"oti",c:()=>true,txt:"Otimismo diante dos erros: {ela} costuma aguentar bem desafios um pouco acima do nível. Não tenha medo de propor atividades mais difíceis de vez em quando."},
+    {t:"aut",c:()=>has("cr"),txt:"Autocontrole ajuda o perfil criativo a terminar o que começa: dê liberdade no caminho e combine bem o ponto de chegada."},
+    {t:"aut",c:()=>!pausa,txt:"Boa capacidade de manter a atenção: blocos de estudo um pouco mais longos podem funcionar, o que abre espaço para atividades mais profundas."},
+    {t:"ent",c:()=>tch.includes("ci"),txt:"Entusiasmo com gosto pela mão na massa: um projeto prático por semana pode virar o centro do planejamento, com os outros conteúdos girando em torno dele."},
+    {t:"ent",c:()=>true,txt:"Entusiasmo é um ótimo motor: aproveite os momentos de animação para introduzir conteúdos novos ou mais difíceis."},
+    {t:"gra",c:()=>has("ar"),txt:"Gratidão com perfil relacional: projetos que envolvam cuidar ou agradecer a alguém, como um presente feito à mão, unem afeto e aprendizado."}
+  ];
+  const seenS={}; const fortes = STRONG.filter(x=>L(x.t)===2&&x.c()).filter(x=>{ seenS[x.t]=(seenS[x.t]||0)+1; return seenS[x.t]===1; }).slice(0,3);
+
+  /* 3. Retrato em três situações do dia a dia */
+  const comeco = S.explicar + (gk==="g"?" Antes dos detalhes, conte aonde o assunto vai chegar.":gk==="a"?" Apresente uma parte de cada vez.":"") + " " + gx(CH_TIPS[tch[0]], c);
+  const erroBase = has("ar")||gk==="g" ? "Correções costumam pesar no lado emocional, então o tom importa muito: comece pelo que ficou bom e corrija o trabalho, não a pessoa."
+    : has("as")||has("cs") ? "Costuma querer acertar de primeira, então o erro pode frustrar. Trate o erro como informação: o que aconteceu e o que muda na próxima tentativa."
+    : "Costuma reagir melhor quando pode tentar de novo do próprio jeito. Valorize as tentativas e os caminhos diferentes.";
+  const erroOti = L("oti")===2 ? " A boa notícia é que o otimismo aparece com frequência nas suas respostas: {ela} costuma se recuperar bem." : L("oti")===0 ? " Como o otimismo apareceu pouco nas respostas, vale redobrar o cuidado com o tom e celebrar pequenos avanços." : "";
+  const longaBase = has("cs") ? "Divida em etapas com checklist e deixe {ela} marcar o progresso."
+    : has("cr") ? "Transforme em missões curtas, com um objetivo claro em cada uma."
+    : has("as") ? "Explique para que serve o trabalho todo e onde ele vai chegar."
+    : "Fique por perto em parte do tempo e reconheça o esforço ao longo do caminho.";
+  const longaNiv = (L("det")===2 && L("aut")>=1) ? " Determinação e autocontrole aparecem bem nas respostas, então tarefas longas tendem a ser um ponto de apoio, não uma dificuldade."
+    : (L("det")===0 || L("aut")===0) ? " Como determinação ou autocontrole apareceram pouco, comece com tarefas mais curtas e vá aumentando aos poucos."
+    : "";
+  const longa = longaBase + (pausa?" Inclua pausas ativas curtas no meio.":"") + longaNiv;
+
+  const obs = TORD.filter(k=>L(k)===0);
+  /* 4. Mãe × criança */
+  let parBox = "";
+  if(c.parent){
+    const pp = perfil(c.parent);
+    if(!pp.main.some(k=>p.main.includes(k))) parBox = `<div class="cross"><div class="tag"><span>Você e ${nome}</span></div><p>Seu perfil é ${nomePerfil(pp).toLowerCase()} e o de ${nome} é ${nomePerfil(p).toLowerCase()}. Antes de concluir que falta ${obs.length?tl(obs[0]).toLowerCase():"vontade"}, vale checar se a atividade foi apresentada do jeito que costuma funcionar para ${nome}.</p></div>`;
+  }
+
   const topF = TORD.slice().sort((a,b)=>av[b]-av[a])[0];
   const marcados = MKEYS.filter(k=>r.mi[k]);
-  const s1 = p.main[0];
+  const card = (h, nivelTag) => `<div class="cross"><div class="tag"><span>${tl(h.t)}</span>${nivelTag?`<span>${nivelTag}</span>`:""}${h.s?`<span>${STY[h.s].apelido}</span>`:""}</div><p>${h.txt}</p></div>`;
+
   go(`
   <button class="back" id="bk">‹ ${nome}</button>
   <h1>Visão integrada de ${nome}</h1>
@@ -833,15 +892,32 @@ function integ(id){
     <div><small>O que mais envolve</small><b>${tch.map(k=>CH[k]).join(" / ")}</b></div>
     <div><small>Vale observar</small><b>${obs.length?obs.map(tl).join(", "):"Nada em destaque"}</b></div>
   </div>
-  <h2 style="margin-top:28px">Hipóteses para experimentar</h2>
-  <p class="note">Cruzamentos entre o que vale observar e o jeito de aprender. Não são conclusões: são ideias para testar e ver o que funciona.</p>
-  ${hits.length ? hits.map(h=>`<div class="cross"><div class="tag"><span>${tl(h.t)}</span>${h.s?`<span>${STY[h.s].apelido}</span>`:""}</div><p>${h.txt}</p></div>`).join("")
-    : obs.length ? `<div class="cross"><p>Não encontramos um cruzamento claro com o perfil de ${nome}. Use as ideias de cada habilidade no resultado, apresentando-as do jeito que costuma funcionar: ${low1(STY[s1].explicar)}</p></div>`
-    : `<div class="cross"><p>Nenhuma habilidade ficou em "vale observar". O melhor caminho agora é continuar oferecendo o que já funciona e usar os pontos de apoio abaixo para novos desafios.</p></div>`}
+
+  <h2 style="margin-top:28px">${nome} em três situações</h2>
+  <p class="note">O que o jeito de aprender e as habilidades dizem juntos sobre momentos comuns da rotina.</p>
+  <div class="cross"><div class="tag"><span>Ao aprender algo novo</span></div><p>${comeco}</p></div>
+  <div class="cross"><div class="tag"><span>Quando erra</span></div><p>${erroBase}${erroOti}</p></div>
+  <div class="cross"><div class="tag"><span>Em tarefas longas</span></div><p>${longa}</p></div>
+
+  ${fortes.length?`<h2 style="margin-top:28px">Como as habilidades e o perfil se apoiam</h2>
+  <p class="note">Combinações que aparecem com força nas respostas e podem guiar o planejamento.</p>
+  ${fortes.map(h=>`<div class="cross"><div class="tag"><span>${tl(h.t)}</span><span>Aparece com frequência</span></div><p>${h.txt}</p></div>`).join("")}`:""}
+
+  ${hObs.length?`<h2 style="margin-top:28px">Hipóteses para experimentar</h2>
+  <p class="note">Para o que ficou em "vale observar". Não são conclusões: são ideias para testar e ver o que funciona.</p>
+  ${hObs.map(h=>card(h,"")).join("")}`:""}
+
+  ${hMid.length?`<h2 style="margin-top:28px">Para fortalecer</h2>
+  <p class="note">Habilidades que aparecem em algumas situações. Não há sinal de preocupação, mas dá para estimular.</p>
+  ${hMid.map(h=>card(h,"")).join("")}`:""}
+
+  ${parBox?`<h2 style="margin-top:28px">Você e ${nome}</h2>${parBox}`:""}
+
   <h2 style="margin-top:28px">Pontos de apoio</h2>
   <div class="cross"><p><b>${tl(topF)}</b> foi a habilidade que mais apareceu. Lembre ${nome} disso quando surgir um desafio: {ela} já sabe fazer algo parecido.</p>
   ${marcados.length?`<p>O interesse por <b>${MI[marcados[0]].nome.toLowerCase()}</b> pode ser porta de entrada para os conteúdos mais difíceis: ${MI[marcados[0]].dicas}.</p>`:""}
-  <p>Pelo perfil ${STY[s1].apelido.toLowerCase()}: ${low1(STY[s1].explicar)}</p></div>
+  ${!obs.length?`<p>Nenhuma habilidade ficou em "vale observar". O melhor caminho é continuar oferecendo o que já funciona e propor desafios novos aos poucos.</p>`:""}</div>
+
   <div class="panel"><h3>Um passo de cada vez</h3><p>No plano da semana, o botão "Quero outras ideias" passa a incluir também sugestões das habilidades. Escolha poucas mudanças por vez e observe o que acontece.</p>
   <div class="row"><button class="btn small" id="pl">Abrir plano da semana</button></div></div>`);
   $("bk").onclick=()=>hub(id);
