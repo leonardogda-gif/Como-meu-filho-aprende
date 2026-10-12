@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Perfil de aprendizagem do meu filho</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1F0F7; --surface:#FFFFFF; --ink:#33305E; --text:#2C2B3A; --muted:#62607A;
+  --line:#DAD8E8; --accent:#E3A72F; --soft:#E3E1F0;
+  --cs:#2F6F8F; --as:#4B4A9A; --ar:#B5577B; --cr:#D0822A;
+  --good:#2E7D5B; --mid:#A86E12; --low:#B24A62;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15141F; --surface:#1F1E2C; --ink:#CFCBF2; --text:#E6E4F0; --muted:#A3A0B8;
+    --line:#302F42; --accent:#F0B845; --soft:#2A2939;
+    --cs:#6FB3D4; --as:#9C9AE8; --ar:#E590B2; --cr:#F2A85A;
+    --good:#6FCB9F; --mid:#F0B845; --low:#EE8BA2;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15141F; --surface:#1F1E2C; --ink:#CFCBF2; --text:#E6E4F0; --muted:#A3A0B8;
+  --line:#302F42; --accent:#F0B845; --soft:#2A2939;
+  --cs:#6FB3D4; --as:#9C9AE8; --ar:#E590B2; --cr:#F2A85A;
+  --good:#6FCB9F; --mid:#F0B845; --low:#EE8BA2;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding:28px 20px 56px}
+h1,h2,h3{font-family:"Young Serif",Georgia,"Times New Roman",serif;color:var(--ink);font-weight:400;line-height:1.2;margin:0}
+h1{font-size:clamp(2rem,7vw,2.6rem)}
+h2{font-size:1.4rem}
+h3{font-size:1.12rem}
+p{margin:.6em 0}
+.lead{font-size:1.05rem;color:var(--muted);max-width:34em}
+.hidden{display:none!important}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn{border:0;border-radius:999px;padding:13px 24px;font-weight:600;background:var(--ink);color:var(--bg);font-size:1rem}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.small{padding:8px 14px;font-size:.9rem}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.panel{background:var(--surface);border-radius:20px;padding:22px;margin-top:20px;border:1px solid var(--line)}
+label{display:block;font-weight:600;margin:14px 0 6px;color:var(--ink)}
+input[type=text],input[type=number]{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--text)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.note{font-size:.9rem;color:var(--muted)}
+.back{background:none;border:0;color:var(--ink);font-weight:600;padding:6px 0;margin-bottom:12px}
+.logo{display:block;width:84px;height:84px;margin:4px 0 16px}
+
+/* crianças e módulos */
+.kid{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:16px 18px;margin-top:10px;color:var(--text)}
+.kid b{font-family:"Young Serif",Georgia,serif;font-weight:400;font-size:1.2rem;color:var(--ink)}
+.kid .st{font-size:.85rem;color:var(--muted)}
+.mod{border-left:5px solid var(--c,var(--ink))}
+.mod .row{margin-top:12px}
+.locked{opacity:.75}
+
+/* questionário */
+.part{font-size:.9rem;font-weight:700;color:var(--ink)}
+.progress{height:6px;background:var(--soft);border-radius:6px;overflow:hidden;margin:10px 0 8px}
+.progress>i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s ease}
+.qtext{font-family:"Young Serif",Georgia,serif;color:var(--ink);font-size:clamp(1.3rem,5vw,1.6rem);line-height:1.3;margin:10px 0 18px}
+.opts{display:grid;gap:10px}
+.opt{text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--text);font-weight:500;display:flex;align-items:center;gap:12px}
+.opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);flex:none}
+.opt[aria-pressed=true]{border-color:var(--ink)}
+.opt[aria-pressed=true] .dot{background:var(--ink);border-color:var(--ink)}
+.qnav{display:flex;justify-content:space-between;margin-top:22px}
+
+/* resultados */
+.flower,.quad{width:100%;max-width:400px;display:block;margin:10px auto 0}
+.flower text,.quad text{font-family:"Figtree",sans-serif}
+.flower text{font-size:12px;fill:var(--muted)}
+.flower text.strong{fill:var(--ink);font-weight:700}
+.trait{border-top:1px solid var(--line);padding:16px 0}
+.trait:first-child{border-top:0}
+.trait-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.badge{font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.b-good{color:var(--good);border:1.5px solid var(--good)}
+.b-mid{color:var(--mid);border:1.5px solid var(--mid)}
+.b-low{color:var(--low);border:1.5px solid var(--low)}
+.chan{margin:10px 0}
+.chan .lbl{display:flex;justify-content:space-between;font-size:.95rem}
+.bar{height:10px;background:var(--soft);border-radius:10px;overflow:hidden;margin-top:4px}
+.bar i{display:block;height:100%;background:var(--ink);border-radius:10px}
+ul.tips{margin:8px 0 0;padding-left:1.1em}
+ul.tips li{margin:6px 0}
+details summary{cursor:pointer;font-weight:600;color:var(--ink);margin-top:6px}
+.card{border-left:5px solid var(--c,var(--ink));padding:4px 0 4px 16px;margin:16px 0}
+.card h3{color:var(--c,var(--ink))}
+.card dt{font-weight:700;color:var(--ink);margin-top:10px}
+.card dd{margin:2px 0 0}
+.card dl{margin:10px 0 0}
+.meter{display:flex;align-items:center;gap:10px;margin:10px 0}
+.meter span{font-size:.9rem;width:80px;flex:none}
+.meter span:last-child{text-align:right}
+.meter .track{flex:1;height:10px;border-radius:10px;background:var(--soft);position:relative}
+.meter .knob{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%);border:3px solid var(--surface)}
+.env{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin-top:8px}
+.env dt{font-weight:600;color:var(--ink)}
+.env dd{margin:0}
+.cross{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin-top:14px}
+.cross .tag{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.cross .tag span{font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--soft);color:var(--ink)}
+.snap{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.snap div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.snap small{display:block;color:var(--muted);font-size:.8rem}
+.snap b{color:var(--ink)}
+.linkbtn{background:none;border:0;color:var(--ink);text-decoration:underline;padding:4px;font-weight:600}
+.linkbtn.del{color:var(--muted);font-weight:500}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+
+.hello{font-size:1.1rem;line-height:1.6;margin-top:14px}
+.sec{margin-top:18px}
+.sec h3{margin-bottom:4px}
+.sec p{margin:.3em 0}
+.plan{margin-top:10px}
+.pitem{border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;margin-top:10px;background:var(--bg)}
+.pitem p{margin:0 0 10px}
+.pitem .row{gap:8px}
+.pitem.done{border-color:var(--good)}
+.st.ok{color:var(--good);font-weight:600;font-size:.92rem}
+.st.no{color:var(--muted);font-weight:600;font-size:.92rem}
+.lvl{font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.l-hi{color:var(--good);border:1.5px solid var(--good)}
+.l-md{color:var(--mid);border:1.5px solid var(--mid)}
+.l-lo{color:var(--low);border:1.5px solid var(--low)}
+.dots{display:flex;gap:5px;margin-top:6px}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--soft)}
+.dots i.on{background:var(--ink)}
+.mainmod{background:var(--ink);color:var(--bg);border:0}
+.mainmod h2,.mainmod p,.mainmod .note{color:var(--bg)}
+.mainmod .note{opacity:.8}
+.mainmod .btn{background:var(--accent);color:#2A1D00}
+.mainmod .btn.ghost{background:transparent;color:var(--bg);border-color:rgba(255,255,255,.4)}
+.step{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.mainmod .step{color:var(--bg);opacity:.75}
+details.deep{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px 20px}
+details.deep>summary{font-family:"Young Serif",Georgia,serif;font-size:1.15rem;font-weight:400}
+details.deep[open]>summary{margin-bottom:10px}
+.seg{display:flex;gap:8px;margin-top:4px}
+.seg button{flex:1;border:1.5px solid var(--line);background:var(--bg);color:var(--text);border-radius:12px;padding:11px;font-weight:600}
+.seg button[aria-pressed=true]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.opt.multi .dot{border-radius:5px}
+.found{list-style:none;padding:0;margin:8px 0 0}
+.found li{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.found li:first-child{border-top:0}
+.found .mk{flex:none;font-weight:700;width:18px}
+.found .mk.ok{color:var(--good)} .found .mk.no{color:var(--muted)}
+
+/* ================= RELATÓRIO ================= */
+.rtool{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 12px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-bottom:1px solid var(--line)}
+.rtool .back{margin:0;margin-right:auto}
+.rep{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px 22px;margin-top:16px}
+.rep h1{font-size:clamp(1.7rem,6vw,2.1rem)}
+.rep h2{font-size:1.3rem;margin:0 0 8px}
+.rep h3{font-size:1.02rem;margin:16px 0 4px}
+.rep p{margin:.35em 0}
+.rbrand{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.rbrand svg{width:22px;height:22px}
+.rmeta{color:var(--muted);font-size:.92rem;margin-top:4px}
+.rsnap{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 4px}
+.rsnap div{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg)}
+.rsnap small{display:block;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;font-weight:700}
+.rsnap b{color:var(--ink);font-size:.98rem}
+.rbox{border-left:4px solid var(--c,var(--ink));padding:2px 0 2px 12px;margin:12px 0}
+.rbox h3{margin:0 0 2px;color:var(--c,var(--ink))}
+.rcheck{list-style:none;padding:0;margin:8px 0 0}
+.rcheck li{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.rcheck li:first-child{border-top:0}
+.rcheck .sq{flex:none;width:16px;height:16px;border:2px solid var(--ink);border-radius:4px;margin-top:4px}
+.rcheck .opts2{display:block;font-size:.82rem;color:var(--muted);margin-top:2px}
+.rtrait{border-top:1px solid var(--line);padding:10px 0;break-inside:avoid}
+.rtrait:first-of-type{border-top:0}
+.rtrait .trait-head h3{margin:0}
+.rep .cross{break-inside:avoid;padding:12px 14px;margin-top:10px}
+.rep .panel{margin-top:12px;padding:16px 18px;break-inside:avoid}
+.rep .flower,.rep .quad{max-width:300px}
+.rnote{font-size:.85rem;color:var(--muted);margin-top:14px}
+.r2{display:grid;gap:0 18px}
+@media (min-width:560px){.r2{grid-template-columns:1fr 1fr}}
+.rfoot{font-size:.8rem;color:var(--muted);text-align:center;margin-top:18px}
+.rtip{font-size:.85rem;color:var(--muted);margin-top:10px}
+
+@media print{
+  :root, :root:not([data-theme="light"]), :root[data-theme="dark"]{
+    --bg:#F4F3F9; --surface:#FFFFFF; --ink:#33305E; --text:#2C2B3A; --muted:#55536C;
+    --line:#D6D4E4; --accent:#C98E1B; --soft:#E7E5F2;
+    --cs:#2F6F8F; --as:#4B4A9A; --ar:#B5577B; --cr:#C2731C;
+    --good:#2E7D5B; --mid:#A86E12; --low:#B24A62;
+    padding:0;
+  }
+  @page{size:A4;margin:14mm 14mm 16mm}
+  html,body{background:#fff}
+  body{font-size:11.5pt;line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none;padding:0}
+  .noprint{display:none!important}
+  .rep{border:0;border-radius:0;padding:0;margin:0}
+  body{font-size:10.5pt}
+  .rep.one{break-after:page}
+  .rep.newpg{break-before:page;border-top:0!important;margin-top:0!important;padding-top:0!important}
+  .rep.one{font-size:10pt;line-height:1.4}
+  .rep.one h1{font-size:20pt}
+  .rep.one .rbox{margin:8px 0}
+  .r2{grid-template-columns:1fr 1fr}
+  .rep:not(.one) + .rep{margin-top:22px;padding-top:16px;border-top:2px solid var(--line)}
+  .rep:not(.one) .rbrand{display:none}
+  .rep .quad,.rep .flower{max-width:230px}
+  .rep h2{break-after:avoid}
+  .rep h3{break-after:avoid}
+  .rsnap div,.rbox,.rcheck li{break-inside:avoid}
+  details{display:block}
+  body.print-resumo .rep:not(.one){display:none!important}
+  body.print-resumo .rep.one{break-after:auto}
+}
+</style>
+</head>
+<body>
+<main class="wrap" id="app"></main>
+<script>
+(function(){
+/* =====================================================================
+   CAMADA DE DADOS
+   Todo acesso aos dados passa por aqui. Para migrar para o Cloudflare
+   Worker (D1), troque o conteúdo de Store.load e Store.save por chamadas
+   à API; o resto do app não precisa mudar.
+   ===================================================================== */
+const Store = {
+  KEY: "perfil-aprendizagem-v3",
+  load(){ try{ const v=localStorage.getItem(this.KEY); return v?JSON.parse(v):{children:[]}; }catch(e){ return {children:[]}; } },
+  save(db){ try{ localStorage.setItem(this.KEY, JSON.stringify(db)); }catch(e){} }
+};
+let db = Store.load();
+const save = ()=>Store.save(db);
+const kid = id => db.children.find(c=>c.id===id);
+
+/* ================= GÊNERO =================
+   Textos usam marcadores: {ela} {Ela} {dela} {o} (terminação a/o) */
+let CUR = null;
+function gx(s, c){
+  const m = (c||CUR||{}).sexo==="m";
+  return String(s).replace(/\{ela\}/g, m?"ele":"ela").replace(/\{Ela\}/g, m?"Ele":"Ela")
+    .replace(/\{dela\}/g, m?"dele":"dela").replace(/\{o\}/g, m?"o":"a");
+}
+
+/* ================= PERFIS ================= */
+const STY = {
+  cs:{sigla:"CS",tecnico:"Concreto-sequencial",apelido:"Prático e organizado",cor:"var(--cs)",
+    resumo:"com ordem, rotina e passos claros",
+    ajuda:"Saber exatamente o que se espera, instruções passo a passo, exemplos concretos, rotina previsível e poder terminar o que começou.",
+    resiste:"Mudanças de última hora, instruções vagas, não saber quanto tempo a atividade vai durar e ambiente bagunçado.",
+    explicar:"Mostre primeiro um exemplo pronto do resultado. Depois explique os passos na ordem e deixe praticar com o modelo por perto.",
+    plano:["Uma rotina de estudos fixa, com horários previsíveis.","Checklists para tarefas longas, com etapas para ir marcando.","Blocos de atividade com começo, meio e fim bem claros."]},
+  as:{sigla:"AS",tecnico:"Abstrato-sequencial",apelido:"Pensador lógico",cor:"var(--as)",
+    resumo:"entendendo o porquê das coisas e tendo tempo para aprofundar",
+    ajuda:"Explicações com lógica, livros e fontes para consultar, tempo para pensar e liberdade para trabalhar por conta própria.",
+    resiste:"Pressa, repetição sem sentido, atividades que parecem bobas e ter de expor sentimentos na frente dos outros.",
+    explicar:"Comece pelo porquê e pela lógica do assunto. Ofereça uma leitura para aprofundar e trate as perguntas como parte do aprendizado.",
+    plano:["Projetos de pesquisa que durem algumas semanas.","Tempo reservado para aprofundar um tema de interesse.","Leituras de apoio além do material principal."]},
+  ar:{sigla:"AR",tecnico:"Abstrato-aleatório",apelido:"Sensível e relacional",cor:"var(--ar)",
+    resumo:"quando o clima é acolhedor e há alguém por perto",
+    ajuda:"Estudar junto de alguém, histórias, arte e música, poder personalizar o próprio trabalho e ser reconhecid{o} pelo esforço.",
+    resiste:"Frieza, críticas duras, competição e rigidez excessiva.",
+    explicar:"Comece por uma história ou por uma pessoa real ligada ao assunto. Explique sentado ao lado e valorize o esforço antes de corrigir.",
+    plano:["Momentos diários de estudo feitos junto.","Atividades com arte, música e histórias.","Trabalhos que a criança possa personalizar do seu jeito."]},
+  cr:{sigla:"CR",tecnico:"Concreto-aleatório",apelido:"Criativo e aventureiro",cor:"var(--cr)",
+    resumo:"experimentando, escolhendo e resolvendo problemas do próprio jeito",
+    ajuda:"Desafios, poder escolher, projetos práticos, inventar e descobrir caminhos próprios.",
+    resiste:"Rotina rígida, regras demais, ter de mostrar cada passo, atividades repetitivas e não poder escolher.",
+    explicar:"Comece com um problema para resolver. Deixe tentar antes de explicar e depois organizem juntos o que foi descoberto.",
+    plano:["Uma semana com escolhas: a criança decide a ordem das atividades.","Um projeto prático por semana.","Pequenos desafios, jogos ou missões no lugar de exercícios repetitivos. Se a criança gostar de tempo marcado, uma rodada cronometrada também pode funcionar."]}
+};
+const SKEYS = ["cs","as","ar","cr"];
+
+/* 12 situações para a criança. Opções sem gênero de propósito. */
+const P1 = [
+ ["Vocês ganharam um jogo novo que ninguém conhece. O que {q} provavelmente faz primeiro?",{cs:"Lê as regras com atenção antes de começar",as:"Tenta entender a lógica e a melhor estratégia",ar:"Chama alguém para jogar junto",cr:"Começa a jogar e descobre as regras no caminho"}],
+ ["Na hora de começar uma lição nova, {q}…",{cs:"pergunta exatamente o que precisa fazer e como",as:"pergunta para que serve aquilo",ar:"quer alguém por perto enquanto faz",cr:"tenta fazer do próprio jeito, antes de ouvir tudo"}],
+ ["Quando a rotina do dia muda de última hora, {q}…",{cs:"se incomoda e quer saber logo o novo plano",as:"quer entender o motivo da mudança",ar:"reage conforme o clima: fica bem se ninguém estiver tenso",cr:"gosta da novidade e se adapta rápido"}],
+ ["Numa tarde livre, sem nada combinado, {q} provavelmente…",{cs:"organiza, coleciona ou termina algo que começou",as:"lê, pesquisa ou fica pensando num assunto",ar:"procura alguém para conversar, brincar ou criar junto",cr:"inventa uma brincadeira, constrói ou explora algo novo"}],
+ ["Quando tem uma tarefa com prazo, {q}…",{cs:"começa cedo e segue uma ordem até terminar",as:"capricha tanto nos detalhes que às vezes atrasa",ar:"rende conforme o ânimo e a companhia",cr:"deixa para depois e resolve na última hora"}],
+ ["Depois de uma correção na atividade, {q} costuma…",{cs:"querer saber exatamente o que mudar",as:"questionar se a correção faz sentido",ar:"se abalar se o tom foi duro",cr:"argumentar ou procurar outro jeito de fazer"}],
+ ["Ao montar algo (um brinquedo, uma receita, um projeto), {q}…",{cs:"segue as instruções na ordem",as:"entende como funciona antes de começar",ar:"prefere fazer junto com alguém",cr:"deixa as instruções de lado e vai testando"}],
+ ["Numa brincadeira em grupo, {q} costuma…",{cs:"combinar as regras e cobrar que sejam seguidas",as:"pensar na estratégia ou observar antes de entrar",ar:"cuidar para que ninguém fique de fora",cr:"propor mudanças e inventar regras novas"}],
+ ["Quando conta como foi o dia, {q} fala mais…",{cs:"do que fez, na ordem em que aconteceu",as:"de algo que aprendeu ou descobriu",ar:"de como as pessoas estavam e do que sentiu",cr:"da parte mais divertida ou inesperada"}],
+ ["O que mais costuma tirar {q} do sério?",{cs:"Bagunça e coisas fora do lugar",as:"Explicações sem sentido",ar:"Briga, clima pesado ou ninguém dar atenção",cr:"Regras demais e ter de fazer tudo do mesmo jeito"}],
+ ["Diante de um problema difícil, {q}…",{cs:"procura um exemplo parecido e segue os passos",as:"pensa em silêncio até entender",ar:"pede ajuda ou quer resolver junto",cr:"tenta vários caminhos até um dar certo"}],
+ ["Se pudesse escolher como apresentar um trabalho, {q} faria…",{cs:"um cartaz ou resumo bem organizado",as:"uma pesquisa detalhada, com dados",ar:"algo com desenho, história ou teatro",cr:"uma maquete, um vídeo ou algo inventado"}]
+];
+/* 8 situações para a mãe ou o pai: [pergunta, índice das opções em P1] */
+const PM = [
+ ["Vocês ganharam um jogo novo que ninguém conhece. O que você provavelmente faz primeiro?",0],
+ ["Quando precisa aprender algo novo, no trabalho ou em casa, você…",1],
+ ["Quando a rotina do dia muda de última hora, você…",2],
+ ["Numa tarde livre, sem nada combinado, você provavelmente…",3],
+ ["Quando tem uma tarefa com prazo, você…",4],
+ ["Quando alguém critica algo que você fez, você costuma…",5],
+ ["Ao montar algo (um móvel, uma receita, um projeto), você…",6],
+ ["O que mais costuma tirar você do sério?",9]
+];
+const P4 = [
+ ["som","Para estudar, {q} rende mais com…",["Silêncio","Música ou som de fundo","Tanto faz"]],
+ ["hora","Em que período {q} costuma render mais?",["De manhã","À tarde","À noite"]],
+ ["mov","Durante as atividades, {q}…",["Precisa de pausas curtas e frequentes","Consegue ficar bastante tempo concentrad{o}","Varia"]],
+ ["comp","{Q} costuma render mais…",["Sozinh{o}","Com um adulto por perto","Com outras crianças"]]
+];
+const ENV_LBL = {som:"Som",hora:"Período",mov:"Movimento",comp:"Companhia"};
+const envTxt = (r,k) => r.env[k]==null ? "–" : P4.find(p=>p[0]===k)[2][r.env[k]];
+const P3 = [
+ ["Para memorizar algo, {q}…",{au:"repete em voz alta ou canta",vi:"imagina, desenha ou escreve",ci:"precisa fazer, montar ou se mexer"}],
+ ["Aprendendo algo novo, {q} prefere…",{au:"ouvir alguém explicar",vi:"ver uma demonstração ou figura",ci:"pôr a mão na massa"}],
+ ["O que mais distrai {q}?",{au:"Barulho e conversas",vi:"Bagunça ou movimento à vista",ci:"Ficar parad{o} muito tempo"}],
+ ["O passatempo preferido de {q} envolve…",{au:"música, histórias ou conversa",vi:"desenho, vídeos ou quebra-cabeça",ci:"esporte, construção ou dança"}]
+];
+const P2 = [
+ ["Ao receber uma explicação, {q}…",{a:"prefere os detalhes em ordem, um por um",g:"quer primeiro a ideia geral e para que serve"}],
+ ["Com várias tarefas, {q}…",{a:"faz uma de cada vez, até terminar",g:"alterna entre elas e faz várias ao mesmo tempo"}],
+ ["Quando recebe uma crítica, {q}…",{a:"encara como informação sobre a tarefa",g:"costuma levar para o lado pessoal"}],
+ ["Com o tempo, {q}…",{a:"tem boa noção de horário e prazos",g:"perde a noção do tempo quando está envolvid{o}"}]
+];
+const MI = {
+ ling:{nome:"Palavras",item:"Gosta de ler, contar histórias e brincar com palavras",dicas:"diário, contar com as próprias palavras o que aprendeu, jogos de palavras e escrita criativa"},
+ log:{nome:"Números e lógica",item:"Gosta de números, padrões, quebra-cabeças e de entender causas",dicas:"problemas e desafios, experimentos, classificar, comparar e descobrir padrões"},
+ esp:{nome:"Imagens e espaço",item:"Desenha, monta coisas e se orienta bem em lugares",dicas:"mapas, desenhos, esquemas, maquetes e construção"},
+ mus:{nome:"Música e ritmo",item:"Percebe ritmos, cantarola e guarda músicas com facilidade",dicas:"músicas e ritmos para memorizar tabuada, listas e datas"},
+ cor:{nome:"Corpo e movimento",item:"Aprende com o corpo: esporte, dança, trabalhos manuais, teatro",dicas:"dramatizar, manipular materiais, aprender em movimento e projetos práticos"},
+ inter:{nome:"Pessoas",item:"Entende bem as pessoas e gosta de fazer as coisas em grupo",dicas:"estudar em dupla, ensinar o conteúdo para alguém, projetos em grupo"},
+ intra:{nome:"Autoconhecimento",item:"Gosta de refletir e conhece bem os próprios sentimentos",dicas:"metas pessoais, diário de reflexão, poder escolher temas e ritmo"}
+};
+const MKEYS = ["ling","log","esp","mus","cor","inter","intra"];
+const CH = {au:"Ouvir e conversar",vi:"Ver, desenhar e observar",ci:"Fazer e se movimentar"};
+const CH_FRASE = {au:"ouvir, falar e conversar",vi:"ver, desenhar e observar",ci:"atividades práticas e de movimento"};
+const CH_TIPS = {
+  au:"Experimente explicar em voz alta, pedir que {ela} explique de volta e usar rimas e músicas para memorizar.",
+  vi:"Experimente mapas mentais, desenhos, cores e mostrar uma figura ou demonstração antes de explicar.",
+  ci:"Experimente incluir material concreto, movimento e experimentos, e pausas curtas entre as atividades."
+};
+
+/* ================= EXPERIÊNCIAS PARA O PLANO ================= */
+const EXP_STY = {
+  cs:["Monte com a criança a rotina de estudos da semana e deixe à vista.","Dê um checklist para a tarefa mais longa da semana e deixe que {ela} marque cada etapa.","Antes de uma atividade nova, mostre um exemplo pronto do resultado esperado."],
+  as:["Antes de cada atividade, explique em uma frase para que ela serve.","Escolha com a criança um tema para pesquisar a fundo durante a semana.","Quando {ela} questionar algo, mostre o raciocínio e convide a conferir num livro."],
+  ar:["Faça pelo menos uma atividade por dia sentado ao lado {dela}.","Comece um conteúdo novo contando a história de alguém ligado a ele.","Antes de corrigir, diga algo específico que ficou bom no trabalho."],
+  cr:["Dê duas opções de atividade e deixe que {ela} escolha por qual começar.","Transforme um exercício repetitivo em um pequeno desafio, jogo ou missão.","Comece matemática com um problema real antes da explicação."]
+};
+const EXP_CH = {
+  ci:["Faça uma atividade usando material concreto: blocos, dinheiro de brinquedo ou objetos da casa.","Deixe estudar em pé ou andando durante uma revisão."],
+  vi:["Montem juntos um mapa mental ou desenho de um conteúdo da semana.","Mostre uma figura, vídeo curto ou demonstração antes de explicar algo novo."],
+  au:["Peça que {ela} explique para você, em voz alta, o que aprendeu no dia.","Transforme uma lista para memorizar em música ou rima."]
+};
+const EXP_GA = {
+  g:["Comece a próxima matéria mostrando aonde o assunto vai chegar e para que serve."],
+  a:["Divida o próximo conteúdo novo em passos numerados e sigam um de cada vez."],
+  m:[]
+};
+function expEnv(env){
+  const o = [];
+  if(env.mov===0) o.push("Faça uma pausa ativa de 2 minutos a cada 15 ou 20 minutos de estudo: alongar, pular, buscar água.");
+  if(env.hora!=null) o.push(`Coloque a atividade mais difícil do dia no período em que {ela} rende mais (${P4[1][2][env.hora].toLowerCase()}).`);
+  if(env.comp===0) o.push("Reserve um momento em que {ela} trabalhe por conta própria, com você disponível só se precisar.");
+  if(env.comp===2) o.push("Faça uma atividade em dupla com um irmão ou amigo, com uma tarefa para cada um.");
+  if(env.som===0) o.push("Prepare um cantinho silencioso para a atividade que exige mais concentração.");
+  if(env.som===1) o.push("Teste música instrumental baixa durante uma atividade de leitura ou escrita.");
+  return o;
+}
+
+/* ================= HABILIDADES (forças de caráter) ================= */
+const TRAITS = {
+  det:{nome:"Determinação",desc:"Persistir em objetivos de longo prazo e não desistir diante da dificuldade.",
+    dicas:["Espere um pouco antes de ajudar quando {ela} empacar e pergunte o que já tentou.","Escolha com a criança uma atividade de longo prazo e combinem um período mínimo antes de desistir.","Elogie o esforço e a estratégia, não a inteligência."]},
+  aut:{nome:"Autocontrole",desc:"Controlar impulsos, esperar, manter a atenção e se acalmar depois de uma frustração.",
+    dicas:["Combine um plano se–então: \"se tiver vontade de largar a lição, termino o exercício atual e depois paro\".","Mantenha uma rotina previsível para os estudos.","Use brincadeiras como estátua e jogos de tabuleiro para treinar esperar a vez."]},
+  ent:{nome:"Entusiasmo",desc:"Energia e disposição para se envolver nas atividades.",
+    dicas:["Deixe a criança escolher parte do que estuda ou a ordem das atividades.","Inclua atividades mão na massa: experimentos, construção, culinária, passeios.","Coloque o que exige mais esforço no período em que {ela} rende mais."]},
+  soc:{nome:"Inteligência social",desc:"Perceber o que os outros sentem, conviver bem e resolver conflitos conversando.",
+    dicas:["Dê nome às emoções no dia a dia.","Num conflito, peça que cada um diga o que o outro pode ter sentido antes de buscar solução.","Proponha projetos em dupla, com uma tarefa para cada um."]},
+  gra:{nome:"Gratidão",desc:"Reconhecer o que recebe e o que tem de bom, e retribuir.",
+    dicas:["No fim do dia, cada pessoa da casa conta três coisas boas que aconteceram.","Incentive bilhetes ou desenhos de agradecimento.","Dê pequenas responsabilidades de cuidado com a casa ou com outras pessoas."]},
+  oti:{nome:"Otimismo",desc:"Acreditar que as coisas podem melhorar com esforço e ver o erro como algo temporário.",
+    dicas:["Troque \"não consigo\" por \"ainda não consigo\".","Conte seus próprios erros e o que você fez depois.","Revisem os erros juntos como informação: onde errou e por quê."]},
+  cur:{nome:"Curiosidade",desc:"Vontade de perguntar, investigar e aprender por conta própria.",
+    dicas:["Devolva as perguntas: \"o que você acha?\" e \"como a gente pode descobrir?\"","Tenha um caderno de perguntas e escolham uma por semana para pesquisar.","Garanta tempo livre sem tela para explorar e inventar."]}
+};
+const TORD = ["det","aut","ent","soc","gra","oti","cur"];
+const FQ = [
+ ["det","Termina o que começa, mesmo quando fica difícil.",0],
+ ["aut","Consegue esperar a vez de falar sem interromper.",0],
+ ["cur","Faz perguntas sobre como e por que as coisas funcionam.",0],
+ ["gra","Agradece espontaneamente quando recebe ajuda.",0],
+ ["oti","Depois de um erro, acredita que pode melhorar se se esforçar.",0],
+ ["ent","Começa as atividades com energia e disposição.",0],
+ ["soc","Percebe quando alguém está triste ou chateado.",0],
+ ["det","Desiste rápido de atividades que exigem esforço.",1],
+ ["aut","Consegue se acalmar depois de uma frustração.",0],
+ ["cur","Busca aprender coisas por conta própria, fora das tarefas.",0],
+ ["oti","Diz coisas como \"eu não sou capaz\" ou \"nunca vou conseguir\".",1],
+ ["gra","Reclama com frequência do que recebe ou do que tem.",1],
+ ["ent","Participa ativamente: pergunta, comenta, se envolve.",0],
+ ["soc","Resolve desentendimentos com irmãos ou amigos conversando.",0],
+ ["det","Quando algo não dá certo de primeira, tenta de novo.",0],
+ ["aut","Larga a tarefa assim que aparece algo mais divertido.",1],
+ ["cur","Gosta de experimentar coisas novas: assuntos, jogos, comidas.",0],
+ ["gra","Reconhece o que tem de bom, em vez de focar só no que falta.",0],
+ ["oti","Recupera o bom humor rápido depois de uma decepção.",0],
+ ["ent","Mostra desânimo ou indiferença na maior parte das atividades.",1],
+ ["soc","Tem dificuldade para brincar ou trabalhar em grupo.",1],
+ ["det","Mantém o interesse num mesmo projeto ou hobby por semanas ou meses.",0],
+ ["aut","Controla o impulso de responder mal quando algo não sai como quer.",0],
+ ["cur","Se contenta com a primeira resposta e não quer saber mais.",1],
+ ["gra","Faz pequenas gentilezas para os outros sem ninguém pedir.",0],
+ ["oti","Encara desafios novos com confiança.",0],
+ ["ent","Demonstra alegria quando aprende algo novo.",0],
+ ["soc","Adapta o jeito de falar a pessoas diferentes (adultos, crianças menores).",0]
+];
+const LIK = ["Nunca","Raramente","Às vezes","Frequentemente","Sempre"];
+const LVL = v => v>=3.75 ? {t:"Aparece com frequência",c:"l-hi",k:2} : v>=2.75 ? {t:"Aparece em algumas situações",c:"l-md",k:1} : {t:"Vale observar",c:"l-lo",k:0};
+const isObs = v => v < 2.75;
+const HAB = "Habilidades que ajudam a aprender";
+
+/* ================= UTILIDADES ================= */
+const app = document.getElementById("app");
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = t => new Date(t).toLocaleDateString("pt-BR");
+const low1 = s => s.charAt(0).toLowerCase()+s.slice(1);
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function shuffle(a,seed){ const r=a.slice(); let x=seed*9301+49297; for(let i=r.length-1;i>0;i--){ x=(x*9301+49297)%233280; const j=Math.floor(x/233280*(i+1)); [r[i],r[j]]=[r[j],r[i]]; } return r; }
+const gaKind = ga => Math.abs(ga.a-ga.g)<=1 ? "m" : ga.g>ga.a ? "g" : "a";
+const topChans = ch => { const m=Math.max(ch.au,ch.vi,ch.ci); return ["au","vi","ci"].filter(k=>ch[k]===m); };
+const lastF = c => c.forcas && c.forcas.length ? c.forcas[c.forcas.length-1] : null;
+function go(html){ app.innerHTML = gx(html); window.scrollTo(0,0); }
+const $ = id => document.getElementById(id);
+
+/* Leitura do perfil com tratamento de empate.
+   tipo: "claro" (um perfil), "equilibrado" (dois muito próximos), "indefinido" (sem tendência). */
+function perfil(styles){
+  const o = SKEYS.slice().sort((a,b)=>styles[b]-styles[a]);
+  const v = o.map(k=>styles[k]);
+  if(v[0]-v[2] <= 1) return {tipo:"indefinido", main:[o[0],o[1]], o};
+  if(v[0]-v[1] <= 1) return {tipo:"equilibrado", main:[o[0],o[1]], o};
+  return {tipo:"claro", main:[o[0]], o};
+}
+const nomePerfil = p => p.main.map(k=>STY[k].apelido).join(" e ");
+
+/* ================= INÍCIO ================= */
+function home(){
+  CUR = null;
+  const kids = db.children.map(c=>{
+    const st = c.estilo ? `Perfil pronto${c.plano?`, plano de ${fmt(c.plano.data)}`:""}` : "Perfil ainda não feito";
+    return `<button class="kid" data-kid="${c.id}"><span><b>${esc(c.nome)}</b>${c.idade?` <span class="note">${esc(c.idade)} anos</span>`:""}<br><span class="st">${st}</span></span><span aria-hidden="true">›</span></button>`;
+  }).join("");
+  go(`
+  <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
+    <rect x="4" y="4" width="44" height="44" rx="12" fill="var(--as)"/>
+    <rect x="52" y="4" width="44" height="44" rx="12" fill="var(--ar)"/>
+    <rect x="4" y="52" width="44" height="44" rx="12" fill="var(--cs)"/>
+    <path d="M74 96 C 90 80, 98 64, 74 52 C 50 64, 58 80, 74 96 Z" fill="var(--accent)"/>
+  </svg>
+  <h1>Como meu filho aprende?</h1>
+  <p class="lead">Responda algumas perguntas sobre situações do dia a dia e receba o jeito de aprender da criança, com ideias práticas e um plano simples para experimentar nesta semana. Leva uns 6 minutos.</p>
+  ${db.children.length ? `<div style="margin-top:22px"><h2>Suas crianças</h2>${kids}</div>` : ""}
+  <div class="panel">
+    <h3>${db.children.length?"Adicionar outra criança":"Comece cadastrando a criança"}</h3>
+    <label for="nome">Nome</label><input type="text" id="nome" autocomplete="off" placeholder="Ex.: Laura">
+    <label>É menino ou menina?</label>
+    <div class="seg" id="sexo"><button type="button" data-s="f" aria-pressed="false">Menina</button><button type="button" data-s="m" aria-pressed="false">Menino</button></div>
+    <label for="idade">Idade</label><input type="number" id="idade" min="3" max="18" inputmode="numeric" placeholder="Ex.: 7">
+    <p class="note" id="err" style="color:var(--low)"></p>
+    <div class="row" style="margin-top:6px"><button class="btn" id="add">Adicionar</button></div>
+  </div>
+  <p class="note" style="margin-top:22px">Inspirado nos livros de Cynthia Ulrich Tobias e Paul Tough. As perguntas foram criadas a partir das ideias de cada autor e não são questionários oficiais. É uma ferramenta de observação e planejamento, não um teste psicológico ou diagnóstico. Os dados ficam salvos só neste aparelho.</p>`);
+  let sexo = null;
+  $("sexo").onclick = e=>{ const b=e.target.closest("[data-s]"); if(!b) return; sexo=b.dataset.s; $("sexo").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b)); };
+  $("add").onclick = ()=>{
+    const n = $("nome").value.trim();
+    if(!n){ $("err").textContent="Digite o nome."; $("nome").focus(); return; }
+    if(!sexo){ $("err").textContent="Escolha menino ou menina."; return; }
+    const c = {id:uid(), nome:n, sexo, idade:$("idade").value.trim(), estilo:null, parent:null, forcas:[], plano:null, historico:[]};
+    db.children.push(c); save(); hub(c.id);
+  };
+  app.querySelectorAll("[data-kid]").forEach(b=>b.onclick=()=>hub(b.dataset.kid));
+}
+
+/* ================= PAINEL DA CRIANÇA ================= */
+function hub(id){
+  const c = kid(id); if(!c) return home(); CUR = c;
+  const e = c.estilo, f = lastF(c), nome = esc(c.nome), desc = descobertas(c);
+  const emAndamento = c.plano ? c.plano.items.filter(i=>i.status).length : 0;
+  go(`
+  <button class="back" id="bk">‹ Todas as crianças</button>
+  <h1>${nome}</h1>
+  ${c.idade?`<p class="note">${esc(c.idade)} anos</p>`:""}
+
+  <div class="panel mainmod">
+    <div class="step">Comece por aqui</div>
+    <h2>Como ${nome} aprende?</h2>
+    <p>25 perguntas rápidas sobre situações do dia a dia, uns 6 minutos. No final, você recebe o jeito de aprender de ${nome} e 3 ideias para experimentar nesta semana.</p>
+    <p class="note">${e?`Respondido em ${fmt(e.data)}`:"Ainda não respondido."}</p>
+    <div class="row">${e?`<button class="btn small" data-a="ve">Ver resultado</button><button class="btn ghost small" data-a="qe">Refazer</button>`:`<button class="btn" data-a="qe">Começar</button>`}</div>
+  </div>
+
+  ${e?`<div class="panel mod" style="--c:var(--accent)">
+    <h2>Meu plano para esta semana</h2>
+    <p>${emAndamento ? `${emAndamento} de ${c.plano.items.length} ideias em andamento.` : "Três experiências simples, escolhidas a partir do perfil."}${desc.length?` Até agora, ${desc.filter(d=>d.status==="sim").length} ${desc.filter(d=>d.status==="sim").length===1?"funcionou":"funcionaram"}.`:""}</p>
+    <div class="row"><button class="btn small" data-a="pl">Abrir plano</button></div>
+  </div>
+
+  <div class="panel mod" style="--c:var(--ar)">
+    <div class="step">Opcional</div>
+    <h2>E você? Será que vocês aprendem parecido?</h2>
+    <p>8 perguntas sobre o seu jeito. Ajuda a entender por que algo que parece óbvio para você nem sempre funciona para ${nome}.</p>
+    <div class="row"><button class="btn small" data-a="qm">${c.parent?"Responder de novo":"Descobrir"}</button>${c.parent?`<button class="btn ghost small" data-a="vm">Ver comparação</button>`:""}</div>
+  </div>
+
+  <div class="panel mod" style="--c:var(--cs)">
+    <div class="step">Aprofundamento opcional</div>
+    <h2>${HAB}</h2>
+    <p>Determinação, autocontrole, entusiasmo, inteligência social, gratidão, otimismo e curiosidade, também conhecidas como forças de caráter. 28 perguntas, uns 6 minutos. Vale refazer a cada 3 ou 4 meses.</p>
+    <p class="note">${f?`Última vez: ${fmt(f.data)}`:"Ainda não respondido."}</p>
+    <div class="row">${f?`<button class="btn small" data-a="vf">Ver resultado</button><button class="btn ghost small" data-a="qf">Refazer</button>`:`<button class="btn small" data-a="qf">Começar</button>`}</div>
+  </div>
+
+  <div class="panel mod ${f?"":"locked"}" style="--c:var(--as)">
+    <div class="step">Recurso avançado</div>
+    <h2>Visão integrada</h2>
+    <p>${f?"Cruza o jeito de aprender com as habilidades e sugere hipóteses para experimentar.":"Fica disponível depois das habilidades que ajudam a aprender."}</p>
+    <div class="row"><button class="btn small" data-a="vi" ${f?"":"disabled"}>Ver visão integrada</button></div>
+  </div>
+
+  <div class="panel mod" style="--c:var(--ink)">
+    <h2>Relatório de ${nome}</h2>
+    <p>Tudo num lugar só, para consultar, imprimir ou salvar em PDF e mandar para quem convive com ${nome}. Começa com um resumo de uma página.</p>
+    <div class="row"><button class="btn small" data-a="rel">Gerar relatório</button></div>
+  </div>`:""}
+
+  <p style="margin-top:22px"><button class="linkbtn del" data-a="del">Apagar ${nome} e todos os resultados</button></p>`);
+  $("bk").onclick = home;
+  app.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{
+    const a=b.dataset.a;
+    if(a==="qe") quiz(id,"estilo"); if(a==="qf") quiz(id,"forcas"); if(a==="qm") quiz(id,"mae");
+    if(a==="ve") resEstilo(id); if(a==="vf") resForcas(id); if(a==="vi") integ(id);
+    if(a==="pl") planScreen(id); if(a==="vm") resMae(id); if(a==="rel") relatorio(id);
+    if(a==="del" && confirm(`Apagar ${c.nome} e todos os resultados?`)){ db.children=db.children.filter(x=>x.id!==id); save(); home(); }
+  });
+}
+
+/* ================= QUESTIONÁRIO ================= */
+function buildSteps(mod){
+  const s = [];
+  if(mod==="forcas"){
+    FQ.forEach((q,i)=>s.push({part:HAB,lead:"Pensando em {n} nas últimas semanas:",kind:"f",i,stem:q[1],opts:LIK.map((t,j)=>[String(j+1),t])}));
+    return s;
+  }
+  const pm = "Escolha a que mais combina, mesmo que outras também combinem um pouco.";
+  if(mod==="mae"){
+    PM.forEach((p,i)=>s.push({part:"Sobre você",lead:pm,kind:"p1",i,stem:p[0],opts:shuffle(SKEYS.map(k=>[k,P1[p[1]][1][k]]),i+7)}));
+    return s;
+  }
+  P1.forEach((p,i)=>s.push({part:"Jeito de pensar",lead:pm,kind:"p1",i,stem:p[0],opts:shuffle(SKEYS.map(k=>[k,p[1][k]]),i+3)}));
+  P4.forEach((p,i)=>s.push({part:"Concentração",lead:"",kind:"p4",i,key:p[0],stem:p[1],opts:p[2].map((t,j)=>[String(j),t])}));
+  P3.forEach((p,i)=>s.push({part:"Memória",lead:"Escolha a que mais combina.",kind:"p3",i,stem:p[0],opts:shuffle(["au","vi","ci"].map(k=>[k,p[1][k]]),i+5)}));
+  P2.forEach((p,i)=>s.push({part:"Compreensão",lead:"Escolha a que mais combina.",kind:"p2",i,stem:p[0],opts:shuffle([["a",p[1].a],["g",p[1].g]],i+1)}));
+  s.push({part:"Interesses e facilidades",lead:"Marque tudo o que costuma aparecer. Pode ser mais de uma opção, ou nenhuma.",kind:"mi",multi:true,stem:"O que combina com {q}?",opts:MKEYS.map(k=>[k,MI[k].item])});
+  return s;
+}
+
+function quiz(id, mod){
+  const c = kid(id); CUR = c;
+  const steps = buildSteps(mod), ans = new Array(steps.length);
+  let idx = 0;
+  const who = mod==="mae" ? "você" : c.nome, Who = mod==="mae" ? "Você" : c.nome;
+  const fill = t => gx(t.replace("{Q}",Who).replace("{q}",who).replace("{n}",c.nome), c);
+  go(`
+  <button class="back" id="bk">‹ Sair sem salvar</button>
+  <div class="part" id="qp"></div>
+  <div class="progress"><i id="qb"></i></div>
+  <div class="note" id="qc"></div>
+  <p class="note" id="ql" style="margin-top:14px"></p>
+  <h2 class="qtext" id="qt" aria-live="polite"></h2>
+  <div class="opts" id="qo" role="group"></div>
+  <div class="qnav"><button class="btn ghost small" id="qback">Voltar</button><button class="btn small hidden" id="qfin">Ver resultado</button></div>`);
+  function render(){
+    const st = steps[idx], last = idx===steps.length-1;
+    $("qp").textContent = st.part;
+    $("qb").style.width = (idx/steps.length*100)+"%";
+    $("qc").textContent = `${idx+1} de ${steps.length}`;
+    $("ql").textContent = fill(st.lead);
+    $("qt").textContent = fill(st.stem);
+    if(st.multi){
+      const sel = ans[idx] || [];
+      $("qo").innerHTML = st.opts.map(([k,t])=>`<button class="opt multi" data-k="${k}" aria-pressed="${sel.includes(k)}"><span class="dot"></span>${esc(fill(t))}</button>`).join("");
+    } else {
+      $("qo").innerHTML = st.opts.map(([k,t])=>`<button class="opt" data-k="${k}" aria-pressed="${ans[idx]===k}"><span class="dot"></span>${esc(fill(t))}</button>`).join("");
+    }
+    $("qback").style.visibility = idx===0?"hidden":"visible";
+    $("qfin").classList.toggle("hidden", !(last && (st.multi || ans[idx])));
+  }
+  $("qo").onclick = e=>{
+    const b = e.target.closest(".opt"); if(!b) return;
+    const st = steps[idx];
+    if(st.multi){ const sel = ans[idx] || []; const k=b.dataset.k; ans[idx] = sel.includes(k) ? sel.filter(x=>x!==k) : sel.concat(k); render(); return; }
+    ans[idx] = b.dataset.k; render();
+    if(idx<steps.length-1) setTimeout(()=>{ idx++; render(); },220);
+  };
+  $("qback").onclick = ()=>{ if(idx>0){ idx--; render(); } };
+  $("bk").onclick = ()=>{ if(!ans.some(Boolean) || confirm("Sair sem salvar as respostas?")) hub(id); };
+  $("qfin").onclick = ()=>{
+    if(mod==="forcas"){
+      const sum={}, cnt={};
+      FQ.forEach((q,i)=>{ let v=+ans[i]; if(q[2]) v=6-v; sum[q[0]]=(sum[q[0]]||0)+v; cnt[q[0]]=(cnt[q[0]]||0)+1; });
+      const avg={}; TORD.forEach(k=>avg[k]=Math.round(sum[k]/cnt[k]*100)/100);
+      c.forcas.push({data:Date.now(),avg}); save(); resForcas(id); return;
+    }
+    const r = {styles:{cs:0,as:0,ar:0,cr:0}, ga:{a:0,g:0}, ch:{au:0,vi:0,ci:0}, env:{}, mi:{}};
+    steps.forEach((st,i)=>{ const k=ans[i];
+      if(st.kind==="p1") r.styles[k]++;
+      else if(st.kind==="p2") r.ga[k]++;
+      else if(st.kind==="p3") r.ch[k]++;
+      else if(st.kind==="p4") r.env[st.key]=+k;
+      else if(st.kind==="mi") MKEYS.forEach(m=>r.mi[m]=(k||[]).includes(m)?1:0); });
+    if(mod==="mae"){ c.parent = r.styles; save(); resMae(id); return; }
+    c.estilo = {data:Date.now(), res:r};
+    arquivarPlano(c);
+    c.plano = newPlan(c);
+    save(); resEstilo(id);
+  };
+  render();
+}
+
+/* ================= PLANO E HISTÓRICO ================= */
+// Guarda no histórico as ideias do plano atual que a mãe já marcou.
+function arquivarPlano(c){
+  if(!c.plano) return;
+  c.historico = c.historico || [];
+  c.plano.items.filter(i=>i.status==="sim"||i.status==="nao").forEach(i=>{
+    c.historico = c.historico.filter(h=>h.txt!==i.txt);
+    c.historico.push({txt:i.txt, status:i.status, data:i.data||Date.now()});
+  });
+}
+// Tudo o que já foi testado: histórico + plano atual.
+function descobertas(c){
+  const m = new Map();
+  (c.historico||[]).forEach(h=>m.set(h.txt,h));
+  if(c.plano) c.plano.items.filter(i=>i.status==="sim"||i.status==="nao").forEach(i=>m.set(i.txt,{txt:i.txt,status:i.status,data:i.data}));
+  return [...m.values()].sort((a,b)=>b.data-a.data);
+}
+function pool(c){
+  const r = c.estilo.res, p = perfil(r.styles);
+  const lists = [...p.main.map(k=>EXP_STY[k]), ...topChans(r.ch).map(k=>EXP_CH[k]), EXP_GA[gaKind(r.ga)], expEnv(r.env)];
+  const f = lastF(c);
+  if(f) lists.push(TORD.filter(k=>isObs(f.avg[k])).map(k=>TRAITS[k].dicas[0]));
+  const testadas = new Set(descobertas(c).map(d=>d.txt));
+  const out = [], max = Math.max(...lists.map(l=>l.length));
+  for(let i=0;i<max;i++) lists.forEach(l=>{ if(l[i] && !out.includes(l[i]) && !testadas.has(l[i])) out.push(l[i]); });
+  return out;
+}
+function newPlan(c, excl){
+  let p = pool(c).filter(t=>!excl || !excl.has(t));
+  if(!p.length) p = pool(c);
+  return {data:Date.now(), items:p.slice(0,3).map(t=>({txt:t,status:null}))};
+}
+function planHTML(c){
+  const nome = esc(c.nome), desc = descobertas(c);
+  const items = c.plano.items;
+  return `<p>Três experiências simples a partir do perfil de ${nome}. Teste durante a semana e marque como foi. Nem toda ideia funciona para toda criança, e descobrir isso também faz parte.</p>
+  ${items.length ? `<div class="plan">${items.map((it,i)=>`<div class="pitem ${it.status==="sim"?"done":""}">
+    <p>${esc(gx(it.txt,c))}</p>
+    ${it.status===null ? `<div class="row"><button class="btn small" data-p="${i}" data-v="vou">Vou experimentar</button></div>`
+      : it.status==="vou" ? `<div class="row"><span class="note">Como foi?</span><button class="btn small" data-p="${i}" data-v="sim">Funcionou</button><button class="btn ghost small" data-p="${i}" data-v="nao">Não funcionou</button></div>`
+      : it.status==="sim" ? `<span class="st ok">Funcionou. Vale manter na rotina.</span>`
+      : `<span class="st no">Não funcionou desta vez. Tudo bem: agora você sabe mais sobre ${nome}.</span>`}
+  </div>`).join("")}</div>` : `<p class="note">Vocês já testaram todas as ideias disponíveis para este perfil. Refaça o teste ou as habilidades daqui a alguns meses para receber novas sugestões.</p>`}
+  <div class="row" style="margin-top:14px"><button class="btn ghost small" id="newplan">Quero outras ideias</button></div>
+  <p class="note">O que você já marcou fica guardado em "O que já descobrimos".</p>
+  ${desc.length ? `<div class="sec"><h3>O que já descobrimos sobre ${nome}</h3><ul class="found">${desc.map(d=>`<li><span class="mk ${d.status==="sim"?"ok":"no"}">${d.status==="sim"?"✓":"✕"}</span><span>${esc(gx(d.txt,c))} <span class="note">${d.status==="sim"?"funcionou":"não funcionou"}, ${fmt(d.data)}</span></span></li>`).join("")}</ul></div>` : ""}`;
+}
+function bindPlan(id, rerender){
+  const c = kid(id);
+  app.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{ const it=c.plano.items[+b.dataset.p]; it.status=b.dataset.v; it.data=Date.now(); save(); rerender(); });
+  const n = $("newplan"); if(n) n.onclick=()=>{ const atual=new Set(c.plano.items.map(i=>i.txt)); arquivarPlano(c); c.plano = newPlan(c, atual); save(); rerender(); };
+}
+function planScreen(id){
+  const c = kid(id); CUR = c;
+  go(`<button class="back" id="bk">‹ ${esc(c.nome)}</button>
+  <h1>Meu plano para esta semana</h1>
+  <p class="note">Criado em ${fmt(c.plano.data)}</p>
+  <div class="panel">${planHTML(c)}</div>`);
+  $("bk").onclick=()=>hub(id);
+  bindPlan(id, ()=>planScreen(id));
+}
+
+/* ================= RESULTADO: JEITO DE APRENDER ================= */
+function drawQuad(s){
+  const pos={as:[0,0],ar:[1,0],cs:[0,1],cr:[1,1]}, mx=Math.max(...SKEYS.map(k=>s[k]));
+  let g = `<text x="160" y="14" text-anchor="middle" font-size="12" fill="var(--muted)">Abstrato</text>
+    <text x="160" y="316" text-anchor="middle" font-size="12" fill="var(--muted)">Concreto</text>
+    <text x="10" y="164" font-size="12" fill="var(--muted)" transform="rotate(-90 10 160)" text-anchor="middle">Sequencial</text>
+    <text x="312" y="164" font-size="12" fill="var(--muted)" transform="rotate(90 312 160)" text-anchor="middle">Aleatório</text>`;
+  SKEYS.forEach(k=>{
+    const [cx,cy]=pos[k], x=24+cx*140, y=24+cy*140, v=s[k], size=30+100*(v/12), off=(130-size)/2, t=v===mx;
+    g += `<rect x="${x}" y="${y}" width="130" height="130" rx="18" fill="var(--soft)"/>
+      <rect x="${x+off}" y="${y+off}" width="${size}" height="${size}" rx="${10+size/10}" fill="${STY[k].cor}" opacity="${t?1:.5}"/>
+      <text x="${x+65}" y="${y+122}" text-anchor="middle" font-size="11" font-weight="${t?700:500}" fill="var(--text)">${STY[k].apelido}</text>`;
+  });
+  return g;
+}
+function perfilPanel(k, c){
+  const S = STY[k], gk = gaKind(c.estilo.res.ga);
+  const explicar = S.explicar + (gk==="g" ? " Antes dos detalhes, conte aonde o assunto vai chegar." : gk==="a" ? " Apresente uma parte de cada vez, na sequência." : "");
+  return `<div class="panel" style="border-left:6px solid ${S.cor}">
+    <h2 style="color:${S.cor}">${S.apelido}</h2>
+    <div class="sec"><h3>O que costuma ajudar</h3><p>${S.ajuda}</p></div>
+    <div class="sec"><h3>O que pode gerar resistência</h3><p>${S.resiste}</p></div>
+    <div class="sec"><h3>Como explicar algo novo</h3><p>${explicar}</p></div>
+    <div class="sec"><h3>Ideias para o planejamento</h3><ul class="tips">${S.plano.map(t=>`<li>${t}</li>`).join("")}</ul></div>
+  </div>`;
+}
+function estiloFrases(c){
+  const r=c.estilo.res, nome=esc(c.nome), p=perfil(r.styles);
+  const gk=gaKind(r.ga), tch=topChans(r.ch);
+  const abre = p.tipo==="claro"
+    ? `${nome} parece aprender melhor <b>${STY[p.main[0]].resumo}</b>.`
+    : p.tipo==="equilibrado"
+    ? `${nome} mostra um perfil equilibrado: parece aprender bem <b>${STY[p.main[0]].resumo}</b>, e também <b>${STY[p.main[1]].resumo}</b>.`
+    : `Nas respostas, ainda não apareceu uma tendência clara no jeito de pensar de ${nome}, e isso é comum. As ideias abaixo vêm dos dois perfis que mais apareceram.`;
+  const gaFrase = gk==="g" ? "Costuma precisar ver o todo e o sentido do assunto antes dos detalhes."
+    : gk==="a" ? "Costuma preferir seguir em passos, uma coisa de cada vez."
+    : "Transita bem entre começar pelo todo ou pelos detalhes.";
+  const chFrase = `Nas suas respostas, o que mais apareceu foi ${tch.map(k=>CH_FRASE[k]).join(" e ")}.`;
+  const envFrase = r.env.hora!=null ? `Costuma render mais ${P4[1][2][r.env.hora].toLowerCase()}${r.env.mov===0?" e precisar de pausas curtas":""}.` : "";
+  return `${abre} ${gaFrase} ${chFrase} ${envFrase}`;
+}
+function resEstilo(id){
+  const c=kid(id); CUR=c;
+  const r=c.estilo.res, nome=esc(c.nome), p=perfil(r.styles);
+  const gk=gaKind(r.ga), tch=topChans(r.ch);
+
+  const chanRows = ["au","vi","ci"].map(k=>{ const n=r.ch[k]; return `<div class="chan"><div class="lbl"><span>${CH[k]}</span><span class="note">${n>=3?"aparece bastante":n>=1?"aparece às vezes":"aparece pouco"}</span></div><div class="dots">${[0,1,2,3].map(i=>`<i class="${i<n?"on":""}"></i>`).join("")}</div></div>`; }).join("");
+  const marcados = MKEYS.filter(k=>r.mi[k]);
+
+  go(`
+  <button class="back" id="bk">‹ ${nome}</button>
+  <h1>O jeito de aprender de ${nome}</h1>
+  <p class="note">Respondido em ${fmt(c.estilo.data)}</p>
+  <p class="hello">${estiloFrases(c)}</p>
+
+  <div class="step" style="margin-top:22px">${p.tipo==="claro"?"Perfil principal":p.tipo==="equilibrado"?"Perfil equilibrado entre dois":"Os dois perfis que mais apareceram"}</div>
+  ${p.main.map(k=>perfilPanel(k,c)).join("")}
+
+  <div class="panel" style="border:2px solid var(--accent)">
+    <h2>Meu plano para esta semana</h2>
+    <div id="planin">${planHTML(c)}</div>
+  </div>
+
+  <div class="panel mod" style="--c:var(--ar)">
+    <h2>E você? Será que vocês aprendem parecido?</h2>
+    <p>Responda 8 perguntas sobre o seu jeito e descubra por que algumas estratégias que parecem óbvias para você nem sempre funcionam para ${nome}.</p>
+    <div class="row"><button class="btn small" id="toMae">${c.parent?"Ver comparação":"Descobrir"}</button></div>
+  </div>
+
+  <details class="deep">
+    <summary>Aprofundar o resultado</summary>
+    <h3>Formas que parecem envolver mais ${nome}</h3>
+    ${chanRows}
+    <p>${tch.map(k=>CH_TIPS[k]).join(" ")}</p>
+    <p class="note">Isso não define um tipo fixo de aprendiz. Combinar ouvir, ver e fazer ajuda qualquer criança.</p>
+
+    <h3 style="margin-top:20px">Ambiente que favorece a concentração</h3>
+    <dl class="env">${P4.map(q=>`<dt>${ENV_LBL[q[0]]}</dt><dd>${esc(envTxt(r,q[0]))}</dd>`).join("")}</dl>
+
+    <h3 style="margin-top:20px">Interesses e facilidades que apareceram</h3>
+    ${marcados.length ? `<ul class="tips">${marcados.map(k=>`<li><b>${MI[k].nome}:</b> use como porta de entrada para conteúdos mais difíceis, com ${MI[k].dicas}.</li>`).join("")}</ul>` : `<p class="note">Nenhum marcado. Observe nas próximas semanas quais atividades mais prendem a atenção de ${nome}.</p>`}
+    <p class="note">Baseado nas inteligências múltiplas de Howard Gardner, apresentadas por Cynthia Ulrich Tobias. Mostra interesses observados, não talentos medidos.</p>
+  </details>
+
+  <details class="deep">
+    <summary>Entenda seu resultado</summary>
+    <p>O perfil vem do modelo de Anthony Gregorc, apresentado no livro de Cynthia Ulrich Tobias. Ele combina duas perguntas: a criança prefere o <b>concreto</b> ou o <b>abstrato</b>? Prefere <b>sequência</b> ou <b>variedade</b>?</p>
+    <svg class="quad" viewBox="0 0 320 320" role="img" aria-label="Distribuição das respostas entre os quatro perfis">${drawQuad(r.styles)}</svg>
+    <ul class="tips">${SKEYS.map(k=>`<li><b>${STY[k].apelido}</b> <span class="note">${STY[k].tecnico} (${STY[k].sigla})</span></li>`).join("")}</ul>
+    <p>Todo mundo usa um pouco de cada perfil. O resultado mostra preferências, não limites.</p>
+    <p><b>Estilo não é dificuldade de aprendizagem.</b> Se, mesmo com os ajustes, a criança continuar com dificuldade persistente para ler, escrever, calcular, prestar atenção ou lembrar do que estudou, vale procurar uma avaliação profissional.</p>
+  </details>
+
+  <div class="panel mod" style="--c:var(--cs);margin-top:20px">
+    <div class="step">Quer ir além?</div>
+    <h3>${HAB}</h3>
+    <p>Um segundo olhar, sobre persistência, autocontrole, curiosidade e outras habilidades que sustentam o aprendizado.</p>
+    <div class="row"><button class="btn ghost small" id="toF">${lastF(c)?"Ver resultado":"Conhecer"}</button></div>
+  </div>`);
+  $("bk").onclick=()=>hub(id);
+  $("toMae").onclick=()=> c.parent ? resMae(id) : quiz(id,"mae");
+  $("toF").onclick=()=> lastF(c) ? resForcas(id) : quiz(id,"forcas");
+  const rebind = ()=>{ $("planin").innerHTML = gx(planHTML(kid(id))); bindPlan(id, rebind); };
+  bindPlan(id, rebind);
+}
+
+/* ================= RESULTADO: MÃE ================= */
+function resMae(id){
+  const c=kid(id); CUR=c;
+  const nome=esc(c.nome), pp=perfil(c.parent), pc=perfil(c.estilo.res.styles);
+  const same = pp.main.some(k=>pc.main.includes(k));
+  const s = pc.main[0], S = STY[s];
+  go(`
+  <button class="back" id="bk">‹ ${nome}</button>
+  <h1>${same?"Vocês aprendem parecido!":"Vocês aprendem de jeitos diferentes"}</h1>
+  <div class="snap">
+    <div><small>Seu perfil</small><b>${nomePerfil(pp)}</b></div>
+    <div><small>Perfil de ${nome}</small><b>${nomePerfil(pc)}</b></div>
+  </div>
+  <div class="panel">${maeTexto(c)}</div>
+  <div class="row" style="margin-top:20px"><button class="btn" id="bk2">Voltar para ${nome}</button><button class="btn ghost small" id="redo">Responder de novo</button></div>`);
+  $("bk").onclick=()=>hub(id); $("bk2").onclick=()=>hub(id); $("redo").onclick=()=>quiz(id,"mae");
+}
+function maeTexto(c){
+  const nome=esc(c.nome), pp=perfil(c.parent), pc=perfil(c.estilo.res.styles);
+  const same = pp.main.some(k=>pc.main.includes(k));
+  const s = pc.main[0], S = STY[s];
+  return `
+    ${same ? `<p>Vocês tendem a gostar de coisas parecidas na hora de aprender, e isso costuma facilitar a comunicação.</p>
+      <p>O cuidado é não reforçar só o que os dois já fazem bem. Vale incluir, de vez em quando, atividades que nenhum dos dois escolheria.</p>`
+    : `<p>Isso é mais comum do que parece, e pode explicar muita coisa. O jeito que parece natural para você ensinar pode não ser o que funciona melhor para ${nome}.</p>
+      <p>Quando algo não der certo, antes de concluir que falta vontade, vale checar se a atividade foi apresentada do jeito que costuma funcionar para ${nome}: ${low1(S.explicar)}</p>
+      <p><b>O que pode gerar resistência em ${nome}:</b> ${low1(S.resiste)} Algumas dessas situações talvez não incomodem você da mesma maneira, especialmente se o seu perfil for diferente.</p>`}
+    ${pp.tipo!=="claro"?`<p class="note">O seu resultado apareceu equilibrado entre dois perfis, então a comparação considera os dois.</p>`:""}`;
+}
+
+/* ================= RESULTADO: HABILIDADES ================= */
+function petal(len,w){ const l=Math.max(len,4), ww=w*Math.min(1,.45+l/140); return `M0 0 C ${ww} ${-l*.3}, ${ww*.8} ${-l*.85}, 0 ${-l} C ${-ww*.8} ${-l*.85}, ${-ww} ${-l*.3}, 0 0 Z`; }
+function flowerSVG(av){
+  let fl="", maxL=118;
+  TORD.forEach((k,i)=>{ fl+=`<path d="${petal(maxL,38)}" transform="rotate(${i*360/7})" fill="var(--soft)"/>`; });
+  TORD.forEach((k,i)=>{
+    const a=i*360/7, len=12+(maxL-12)*(av[k]-1)/4, hi=LVL(av[k]).k===2;
+    fl+=`<path d="${petal(len,38)}" transform="rotate(${a})" fill="${hi?'var(--accent)':'var(--ink)'}" opacity="${hi?1:.7}"/>`;
+    const rad=(a-90)*Math.PI/180, x=Math.cos(rad)*(maxL+22), y=Math.sin(rad)*(maxL+22);
+    fl+=`<text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" text-anchor="${Math.abs(x)<10?"middle":x>0?"start":"end"}" class="${hi?"strong":""}">${TRAITS[k].nome}</text>`;
+  });
+  return fl + `<circle r="10" fill="var(--surface)"/>`;
+}
+function resForcas(id){
+  const c=kid(id); CUR=c;
+  const rec=lastF(c), prev=c.forcas.length>1?c.forcas[c.forcas.length-2]:null, av=rec.avg, nome=esc(c.nome);
+  const sorted = TORD.slice().sort((a,b)=>av[b]-av[a]);
+  const freq = TORD.filter(k=>LVL(av[k]).k===2), obs = TORD.filter(k=>isObs(av[k]));
+  const menos = sorted.slice(-2).filter(k=>!obs.includes(k) && LVL(av[k]).k<2);
+  const fl = flowerSVG(av);
+  const rows = sorted.map(k=>{
+    const L=LVL(av[k]), t=TRAITS[k];
+    let cmp=""; if(prev){ const PL=LVL(prev.avg[k]); if(PL.k!==L.k) cmp=`<p class="note">Da última vez (${fmt(prev.data)}): ${low1(PL.t)}.</p>`; }
+    return `<div class="trait"><div class="trait-head"><h3>${t.nome}</h3><span class="lvl ${L.c}">${L.t}</span></div>
+      <p>${t.desc}</p>${cmp}
+      <details ${isObs(av[k])?"open":""}><summary>Ideias para estimular</summary><ul class="tips">${t.dicas.map(d=>`<li>${d}</li>`).join("")}</ul></details></div>`;
+  }).join("");
+  go(`
+  <button class="back" id="bk">‹ ${nome}</button>
+  <h1>Habilidades de ${nome}</h1>
+  <p class="note">${HAB}, também conhecidas como forças de caráter. Respondido em ${fmt(rec.data)}.</p>
+  <div class="panel">
+    <svg class="flower" viewBox="-180 -175 360 350" role="img" aria-label="${TORD.map(k=>`${TRAITS[k].nome}: ${low1(LVL(av[k]).t)}`).join(", ")}">${fl}</svg>
+    ${freq.length?`<p>Aparecem com frequência: <b>${freq.map(k=>TRAITS[k].nome).join(", ")}</b>.</p>`:""}
+    ${obs.length?`<p>Vale observar com mais atenção: <b>${obs.map(k=>TRAITS[k].nome).join(", ")}</b>. As ideias de cada uma já estão abertas abaixo.</p>`
+      :`<p>Nenhuma habilidade ficou em "vale observar".${menos.length?` Nas respostas, as que apareceram um pouco menos foram ${menos.map(k=>TRAITS[k].nome.toLowerCase()).join(" e ")}, mas sem sinal de preocupação.`:""}</p>`}
+  </div>
+  <div class="panel"><h2>Habilidade por habilidade</h2>${rows}</div>
+  <div class="panel"><h3>O que vale para todas</h3><p>Paul Tough mostra que estresse constante atrapalha a atenção, a memória e o autocontrole. Uma relação próxima, rotina previsível e espaço seguro para errar são a base. Proteger a criança de toda dificuldade tira dela a chance de desenvolver essas habilidades.</p>
+  <p class="note">Estes níveis refletem as suas observações, não uma medição. Refaça em 3 ou 4 meses para acompanhar.</p></div>
+  <div class="row" style="margin-top:20px"><button class="btn" id="toI">Ver visão integrada</button></div>`);
+  $("bk").onclick=()=>hub(id);
+  $("toI").onclick=()=>integ(id);
+}
+
+/* ================= VISÃO INTEGRADA ================= */
+function integCalc(c){
+  CUR=c;
+  const av=lastF(c).avg, r=c.estilo.res, nome=esc(c.nome), p=perfil(r.styles);
+  const has = k => p.main.includes(k);
+  const gk=gaKind(r.ga), tch=topChans(r.ch), s1=p.main[0], S=STY[s1];
+  const tl = k=>TRAITS[k].nome, L = k=>LVL(av[k]).k; // 0 vale observar, 1 algumas situações, 2 frequência
+  const pausa = r.env.mov===0;
+
+  /* 1. Hipóteses: para o que vale observar e para o que aparece só às vezes */
+  const RULES = [
+    {t:"det",s:"cr",c:()=>has("cr"),txt:"Se você percebe dificuldade em manter tarefas longas, uma hipótese é que o formato não esteja combinando com o perfil criativo e aventureiro. Tente transformar a tarefa em um pequeno desafio ou missão e deixar a criança escolher o caminho."},
+    {t:"det",s:"ar",c:()=>has("ar"),txt:"Se você percebe que {ela} desiste quando está sozinh{o}, experimente estudar ao lado e reconhecer o esforço em voz alta. Para o perfil sensível e relacional, companhia costuma sustentar a persistência."},
+    {t:"det",s:"as",c:()=>has("as"),txt:"Se você percebe que {ela} larga atividades no meio, uma hipótese é que a tarefa não pareça fazer sentido. Experimente explicar para que serve e oferecer um projeto longo num tema de que {ela} goste."},
+    {t:"det",s:"cs",c:()=>has("cs"),txt:"Se você percebe que {ela} trava diante de tarefas grandes, experimente dividi-las em etapas com checklist. Ver o progresso marcado costuma ajudar o perfil prático e organizado a persistir."},
+    {t:"det",s:null,c:()=>pausa,txt:"Se você percebe que {ela} abandona tarefas longas, pode ser cansaço de ficar muito tempo na mesma coisa. Experimente blocos curtos com pausas ativas e retomar a tarefa depois, em vez de exigir tudo de uma vez."},
+    {t:"aut",s:null,c:()=>tch.includes("ci")||pausa,txt:"Se você percebe dificuldade em ficar parad{o} e focad{o}, uma hipótese é necessidade de movimento. Experimente pausas ativas curtas e deixar estudar em pé ou manuseando algo."},
+    {t:"aut",s:null,c:()=>gk==="g",txt:"Se você percebe que {ela} pula de uma atividade para outra, experimente blocos curtos, uma tarefa por vez à vista na mesa e um combinado claro de quando pode trocar."},
+    {t:"aut",s:"cr",c:()=>has("cr"),txt:"Se você percebe resistência às regras, experimente construir os combinados junto com a criança e oferecer escolhas dentro de limites claros."},
+    {t:"aut",s:"cs",c:()=>has("cs"),txt:"Se você percebe irritação quando algo sai do previsto, avise as mudanças com antecedência e mantenha uma rotina visível. Para o perfil prático e organizado, previsibilidade ajuda a manter a calma."},
+    {t:"oti",s:"ar",c:()=>has("ar")||gk==="g",txt:"Se você percebe desânimo depois de correções, uma hipótese é que o tom esteja pesando. Experimente começar pelo que ficou bom e corrigir o trabalho, não a pessoa."},
+    {t:"oti",s:null,c:()=>has("as")||has("cs"),txt:"Se você percebe frustração com erros, uma hipótese é a vontade de acertar de primeira. Experimente revisar os erros juntos como informação: onde errou, por quê e o que muda na próxima."},
+    {t:"oti",s:"cr",c:()=>has("cr"),txt:"Se você percebe que {ela} desanima quando algo não dá certo, valorize as tentativas e os caminhos diferentes que {ela} testou, não só o resultado final."},
+    {t:"ent",s:null,c:()=>has("cr")||has("ar"),txt:"Se você percebe pouca animação nas atividades, experimente dar mais escolhas, incluir projetos práticos e fazer algumas atividades junto."},
+    {t:"ent",s:null,c:()=>has("cs")||has("as"),txt:"Se você percebe pouca animação, experimente metas claras e a chance de aprofundar num tema preferido. O interesse costuma crescer quando a criança sente que domina o assunto."},
+    {t:"ent",s:null,c:()=>MKEYS.some(k=>r.mi[k]),txt:"Se você percebe pouca animação, experimente começar a semana por uma atividade ligada aos interesses que você marcou e só depois passar para o resto."},
+    {t:"cur",s:"cs",c:()=>has("cs"),txt:"Se você percebe pouco interesse em investigar, experimente dar estrutura à curiosidade: uma pergunta por semana, com passos para pesquisar e um jeito concreto de mostrar o que descobriu."},
+    {t:"cur",s:null,c:()=>gk==="a",txt:"Se você percebe que {ela} se prende às tarefas e explora pouco, experimente reservar um tempo livre, sem nota nem correção, só para investigar um assunto de interesse."},
+    {t:"cur",s:"ar",c:()=>has("ar"),txt:"Se você percebe pouca curiosidade pelos conteúdos, experimente apresentá-los pelas pessoas: quem descobriu, quem vive daquele jeito, entrevistas com alguém da família."},
+    {t:"soc",s:null,c:()=>has("as")||r.env.comp===0,txt:"Se você percebe pouca vontade de trabalhar em grupo, lembre que preferir estudar por conta própria é legítimo. Experimente tarefas em dupla com papéis bem definidos."},
+    {t:"soc",s:"cr",c:()=>has("cr"),txt:"Se você percebe que {ela} atropela os outros nas brincadeiras, experimente jogos cooperativos e revezar quem lidera."},
+    {t:"soc",s:"cs",c:()=>has("cs"),txt:"Se você percebe atritos quando os outros não seguem as regras, converse sobre como cada pessoa tem um jeito e combine regras antes das brincadeiras em grupo."},
+    {t:"gra",s:null,c:()=>has("as")||has("cs"),txt:"Se você percebe pouca expressão de gratidão, pode ser que a criança sinta sem demonstrar. Experimente formas concretas: um bilhete, ajudar em uma tarefa, contar três coisas boas do dia."},
+    {t:"gra",s:null,c:()=>has("cr")||has("ar"),txt:"Se você percebe pouca expressão de gratidão, experimente formas criativas: um desenho, um presente feito à mão ou uma surpresa para alguém que ajudou."}
+  ];
+  function pick(nivel, max){
+    const alvo = TORD.filter(k=>L(k)===nivel), seen={};
+    return RULES.filter(x=>alvo.includes(x.t)&&x.c()).sort((a,b)=>av[a.t]-av[b.t])
+      .filter(x=>{ seen[x.t]=(seen[x.t]||0)+1; return seen[x.t]<=2; }).slice(0,max);
+  }
+  const hObs = pick(0,5), hMid = pick(1,3);
+
+  /* 2. Como as habilidades e o perfil se apoiam (pontos fortes) */
+  const STRONG = [
+    {t:"det",c:()=>has("cs"),txt:"Persistência com perfil prático: projetos longos com etapas claras funcionam bem, como uma coleção, um diário de observação ou um caderno de experiências ao longo do mês."},
+    {t:"det",c:()=>has("cr"),txt:"Persistência com perfil criativo: proponha projetos de invenção que levem semanas, como construir algo do zero, e deixe {ela} decidir o caminho."},
+    {t:"det",c:()=>has("as"),txt:"Persistência com perfil lógico: pesquisas longas e aprofundadas funcionam bem. Experimente um tema por mês, com algo concreto para apresentar no final."},
+    {t:"det",c:()=>has("ar"),txt:"Persistência com perfil relacional: projetos de longo prazo feitos com outras pessoas, ou para ajudar alguém, tendem a manter {ela} engajad{o} até o fim."},
+    {t:"cur",c:()=>has("as"),txt:"Curiosidade com perfil lógico: deixe {ela} formular as próprias perguntas de pesquisa e buscar as respostas em livros e fontes."},
+    {t:"cur",c:()=>has("cr"),txt:"Curiosidade com perfil criativo: proponha investigações práticas do tipo \"e se…?\", em que {ela} testa as próprias hipóteses."},
+    {t:"cur",c:()=>has("ar"),txt:"Curiosidade com perfil relacional: entrevistas, biografias e as histórias por trás dos conteúdos são ótimas portas de entrada."},
+    {t:"cur",c:()=>has("cs"),txt:"Curiosidade com perfil prático: um caderno de perguntas com etapas para investigar transforma a curiosidade em projetos concretos."},
+    {t:"soc",c:()=>true,txt:"Boa leitura das pessoas: ensinar um irmão ou amigo o que aprendeu é uma ótima forma de revisão, e costuma ser prazeroso para {ela}."},
+    {t:"oti",c:()=>true,txt:"Otimismo diante dos erros: {ela} costuma aguentar bem desafios um pouco acima do nível. Não tenha medo de propor atividades mais difíceis de vez em quando."},
+    {t:"aut",c:()=>has("cr"),txt:"Autocontrole ajuda o perfil criativo a terminar o que começa: dê liberdade no caminho e combine bem o ponto de chegada."},
+    {t:"aut",c:()=>!pausa,txt:"Boa capacidade de manter a atenção: blocos de estudo um pouco mais longos podem funcionar, o que abre espaço para atividades mais profundas."},
+    {t:"ent",c:()=>tch.includes("ci"),txt:"Entusiasmo com gosto pela mão na massa: um projeto prático por semana pode virar o centro do planejamento, com os outros conteúdos girando em torno dele."},
+    {t:"ent",c:()=>true,txt:"Entusiasmo é um ótimo motor: aproveite os momentos de animação para introduzir conteúdos novos ou mais difíceis."},
+    {t:"gra",c:()=>has("ar"),txt:"Gratidão com perfil relacional: projetos que envolvam cuidar ou agradecer a alguém, como um presente feito à mão, unem afeto e aprendizado."}
+  ];
+  const seenS={}; const fortes = STRONG.filter(x=>L(x.t)===2&&x.c()).filter(x=>{ seenS[x.t]=(seenS[x.t]||0)+1; return seenS[x.t]===1; }).slice(0,3);
+
+  /* 3. Retrato em três situações do dia a dia */
+  const comeco = S.explicar + (gk==="g"?" Antes dos detalhes, conte aonde o assunto vai chegar.":gk==="a"?" Apresente uma parte de cada vez.":"") + " " + gx(CH_TIPS[tch[0]], c);
+  const erroBase = has("ar")||gk==="g" ? "Correções costumam pesar no lado emocional, então o tom importa muito: comece pelo que ficou bom e corrija o trabalho, não a pessoa."
+    : has("as")||has("cs") ? "Costuma querer acertar de primeira, então o erro pode frustrar. Trate o erro como informação: o que aconteceu e o que muda na próxima tentativa."
+    : "Costuma reagir melhor quando pode tentar de novo do próprio jeito. Valorize as tentativas e os caminhos diferentes.";
+  const erroOti = L("oti")===2 ? " A boa notícia é que o otimismo aparece com frequência nas suas respostas: {ela} costuma se recuperar bem." : L("oti")===0 ? " Como o otimismo apareceu pouco nas respostas, vale redobrar o cuidado com o tom e celebrar pequenos avanços." : "";
+  const longaBase = has("cs") ? "Divida em etapas com checklist e deixe {ela} marcar o progresso."
+    : has("cr") ? "Transforme em missões curtas, com um objetivo claro em cada uma."
+    : has("as") ? "Explique para que serve o trabalho todo e onde ele vai chegar."
+    : "Fique por perto em parte do tempo e reconheça o esforço ao longo do caminho.";
+  const longaNiv = (L("det")===2 && L("aut")>=1) ? " Determinação e autocontrole aparecem bem nas respostas, então tarefas longas tendem a ser um ponto de apoio, não uma dificuldade."
+    : (L("det")===0 || L("aut")===0) ? " Como determinação ou autocontrole apareceram pouco, comece com tarefas mais curtas e vá aumentando aos poucos."
+    : "";
+  const longa = longaBase + (pausa?" Inclua pausas ativas curtas no meio.":"") + longaNiv;
+
+  const obs = TORD.filter(k=>L(k)===0);
+  /* 4. Mãe × criança */
+  let parBox = "";
+  if(c.parent){
+    const pp = perfil(c.parent);
+    if(!pp.main.some(k=>p.main.includes(k))) parBox = `<div class="cross"><div class="tag"><span>Você e ${nome}</span></div><p>Seu perfil é ${nomePerfil(pp).toLowerCase()} e o de ${nome} é ${nomePerfil(p).toLowerCase()}. Antes de concluir que falta ${obs.length?tl(obs[0]).toLowerCase():"vontade"}, vale checar se a atividade foi apresentada do jeito que costuma funcionar para ${nome}.</p></div>`;
+  }
+
+  const topF = TORD.slice().sort((a,b)=>av[b]-av[a])[0];
+  const marcados = MKEYS.filter(k=>r.mi[k]);
+  const card = (h, nivelTag) => `<div class="cross"><div class="tag"><span>${tl(h.t)}</span>${nivelTag?`<span>${nivelTag}</span>`:""}${h.s?`<span>${STY[h.s].apelido}</span>`:""}</div><p>${h.txt}</p></div>`;
+  return {av,r,nome,p,tch,topF,obs,comeco,erroBase,erroOti,longa,fortes,hObs,hMid,parBox,marcados,tl,card};
+}
+function integ(id){
+  const c=kid(id);
+  const {nome,p,tch,topF,obs,comeco,erroBase,erroOti,longa,fortes,hObs,hMid,parBox,marcados,tl,card} = integCalc(c);
+  go(`
+  <button class="back" id="bk">‹ ${nome}</button>
+  <h1>Visão integrada de ${nome}</h1>
+  <p class="note">Jeito de aprender de ${fmt(c.estilo.data)} e habilidades de ${fmt(lastF(c).data)}</p>
+  <div class="snap">
+    <div><small>Perfil</small><b>${nomePerfil(p)}</b></div>
+    <div><small>Habilidade que mais aparece</small><b>${tl(topF)}</b></div>
+    <div><small>O que mais envolve</small><b>${tch.map(k=>CH[k]).join(" / ")}</b></div>
+    <div><small>Vale observar</small><b>${obs.length?obs.map(tl).join(", "):"Nada em destaque"}</b></div>
+  </div>
+
+  <h2 style="margin-top:28px">${nome} em três situações</h2>
+  <p class="note">O que o jeito de aprender e as habilidades dizem juntos sobre momentos comuns da rotina.</p>
+  <div class="cross"><div class="tag"><span>Ao aprender algo novo</span></div><p>${comeco}</p></div>
+  <div class="cross"><div class="tag"><span>Quando erra</span></div><p>${erroBase}${erroOti}</p></div>
+  <div class="cross"><div class="tag"><span>Em tarefas longas</span></div><p>${longa}</p></div>
+
+  ${fortes.length?`<h2 style="margin-top:28px">Como as habilidades e o perfil se apoiam</h2>
+  <p class="note">Combinações que aparecem com força nas respostas e podem guiar o planejamento.</p>
+  ${fortes.map(h=>`<div class="cross"><div class="tag"><span>${tl(h.t)}</span><span>Aparece com frequência</span></div><p>${h.txt}</p></div>`).join("")}`:""}
+
+  ${hObs.length?`<h2 style="margin-top:28px">Hipóteses para experimentar</h2>
+  <p class="note">Para o que ficou em "vale observar". Não são conclusões: são ideias para testar e ver o que funciona.</p>
+  ${hObs.map(h=>card(h,"")).join("")}`:""}
+
+  ${hMid.length?`<h2 style="margin-top:28px">Para fortalecer</h2>
+  <p class="note">Habilidades que aparecem em algumas situações. Não há sinal de preocupação, mas dá para estimular.</p>
+  ${hMid.map(h=>card(h,"")).join("")}`:""}
+
+  ${parBox?`<h2 style="margin-top:28px">Você e ${nome}</h2>${parBox}`:""}
+
+  <h2 style="margin-top:28px">Pontos de apoio</h2>
+  <div class="cross"><p><b>${tl(topF)}</b> foi a habilidade que mais apareceu. Lembre ${nome} disso quando surgir um desafio: {ela} já sabe fazer algo parecido.</p>
+  ${marcados.length?`<p>O interesse por <b>${MI[marcados[0]].nome.toLowerCase()}</b> pode ser porta de entrada para os conteúdos mais difíceis: ${MI[marcados[0]].dicas}.</p>`:""}
+  ${!obs.length?`<p>Nenhuma habilidade ficou em "vale observar". O melhor caminho é continuar oferecendo o que já funciona e propor desafios novos aos poucos.</p>`:""}</div>
+
+  <div class="panel"><h3>Um passo de cada vez</h3><p>No plano da semana, o botão "Quero outras ideias" passa a incluir também sugestões das habilidades. Escolha poucas mudanças por vez e observe o que acontece.</p>
+  <div class="row"><button class="btn small" id="pl">Abrir plano da semana</button><button class="btn ghost small" id="rel">Gerar relatório</button></div></div>`);
+  $("bk").onclick=()=>hub(id);
+  $("pl").onclick=()=>planScreen(id);
+  $("rel").onclick=()=>relatorio(id);
+}
+
+/* ================= RELATÓRIO ================= */
+const LOGO_SVG = `<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="4" y="4" width="44" height="44" rx="12" fill="var(--as)"/><rect x="52" y="4" width="44" height="44" rx="12" fill="var(--ar)"/><rect x="4" y="52" width="44" height="44" rx="12" fill="var(--cs)"/><path d="M74 96 C 90 80, 98 64, 74 52 C 50 64, 58 80, 74 96 Z" fill="var(--accent)"/></svg>`;
+function relatorio(id){
+  const c=kid(id); if(!c||!c.estilo) return hub(id); CUR=c;
+  const r=c.estilo.res, nome=esc(c.nome), p=perfil(r.styles), S=STY[p.main[0]];
+  const f=lastF(c), I = f ? integCalc(c) : null, tch=topChans(r.ch), gk=gaKind(r.ga);
+  const hoje = fmt(Date.now());
+  const brand = `<div class="rbrand">${LOGO_SVG}Como meu filho aprende?</div>`;
+  const explicar = S.explicar + (gk==="g" ? " Antes dos detalhes, conte aonde o assunto vai chegar." : gk==="a" ? " Apresente uma parte de cada vez, na sequência." : "");
+  const plano = c.plano ? c.plano.items : [];
+  const desc = descobertas(c);
+  const ambiente = [r.env.hora!=null?`rende mais ${P4[1][2][r.env.hora].toLowerCase()}`:"", r.env.som!=null&&r.env.som!==2?(r.env.som===0?"em silêncio":"com som de fundo"):"", r.env.mov===0?"com pausas curtas":"", r.env.comp!=null?["sozinh{o}","com um adulto por perto","com outras crianças"][r.env.comp]:""].filter(Boolean).join(", ");
+
+  /* ---------- 1. RESUMO DE UMA PÁGINA ---------- */
+  const resumo = `<section class="rep one">
+    ${brand}
+    <h1>${nome}</h1>
+    <p class="rmeta">${c.idade?`${esc(c.idade)} anos · `:""}Resumo gerado em ${hoje}</p>
+    <div class="rsnap">
+      <div><small>Perfil</small><b>${nomePerfil(p)}</b></div>
+      <div><small>O que mais envolve</small><b>${tch.map(k=>CH[k]).join(" / ")}</b></div>
+      ${f?`<div><small>Habilidade que mais aparece</small><b>${I.tl(I.topF)}</b></div>
+      <div><small>Vale observar</small><b>${I.obs.length?I.obs.map(I.tl).join(", "):"Nada em destaque"}</b></div>`:""}
+      ${ambiente?`<div style="grid-column:1/-1"><small>Ambiente que ajuda</small><b>${ambiente.charAt(0).toUpperCase()+ambiente.slice(1)}</b></div>`:""}
+    </div>
+    <div class="rbox" style="--c:${S.cor}"><h3>Como explicar algo novo</h3><p>${f?I.comeco:explicar}</p></div>
+    ${f?`<div class="rbox" style="--c:var(--ar)"><h3>Quando erra</h3><p>${I.erroBase}${I.erroOti}</p></div>
+    <div class="rbox" style="--c:var(--cs)"><h3>Em tarefas longas</h3><p>${I.longa}</p></div>`:""}
+    <div class="r2">
+      <div class="rbox" style="--c:var(--good)"><h3>O que costuma ajudar</h3><p>${gx(p.main.map(k=>STY[k].ajuda).join(" "),c)}</p></div>
+      <div class="rbox" style="--c:var(--low)"><h3>O que pode gerar resistência</h3><p>${p.main.map(k=>STY[k].resiste).join(" ")}</p></div>
+    </div>
+    ${plano.length?`<h3>Para experimentar nesta semana</h3><ul class="rcheck">${plano.map(it=>`<li><span class="sq"></span><span>${esc(gx(it.txt,c))}</span></li>`).join("")}</ul>`:""}
+    ${!f?`<p class="rnote">Responda também as habilidades que ajudam a aprender para incluir a visão integrada neste relatório.</p>`:""}
+  </section>`;
+
+  /* ---------- 2. JEITO DE APRENDER ---------- */
+  const marcados = MKEYS.filter(k=>r.mi[k]);
+  const jeito = `<section class="rep">
+    ${brand}
+    <h2>O jeito de aprender de ${nome}</h2>
+    <p class="rmeta">Respondido em ${fmt(c.estilo.data)}</p>
+    <p style="margin-top:10px">${estiloFrases(c)}</p>
+    ${p.main.map(k=>perfilPanel(k,c)).join("")}
+    <h3>Formas que parecem envolver mais ${nome}</h3>
+    <p>${["au","vi","ci"].map(k=>{const n=r.ch[k];return `<b>${CH[k]}</b>: ${n>=3?"aparece bastante":n>=1?"aparece às vezes":"aparece pouco"}`;}).join(" · ")}</p>
+    <p>${tch.map(k=>CH_TIPS[k]).join(" ")}</p>
+    <h3>Ambiente que favorece a concentração</h3>
+    <dl class="env">${P4.map(q=>`<dt>${ENV_LBL[q[0]]}</dt><dd>${esc(envTxt(r,q[0]))}</dd>`).join("")}</dl>
+    ${marcados.length?`<h3>Interesses e facilidades</h3><ul class="tips">${marcados.map(k=>`<li><b>${MI[k].nome}:</b> use como porta de entrada para conteúdos mais difíceis, com ${MI[k].dicas}.</li>`).join("")}</ul>`:""}
+    <svg class="quad" viewBox="0 0 320 320" role="img" aria-label="Distribuição das respostas entre os quatro perfis">${drawQuad(r.styles)}</svg>
+  </section>`;
+
+  /* ---------- 3. HABILIDADES ---------- */
+  let habil = "";
+  if(f){
+    const av=f.avg, sorted=TORD.slice().sort((a,b)=>av[b]-av[a]);
+    habil = `<section class="rep">
+      ${brand}
+      <h2>Habilidades de ${nome}</h2>
+      <p class="rmeta">${HAB}, também conhecidas como forças de caráter. Respondido em ${fmt(f.data)}.</p>
+      <svg class="flower" viewBox="-180 -175 360 350" role="img" aria-label="Habilidades">${flowerSVG(av)}</svg>
+      ${sorted.map(k=>{const L=LVL(av[k]),t=TRAITS[k];return `<div class="rtrait"><div class="trait-head"><h3>${t.nome}</h3><span class="lvl ${L.c}">${L.t}</span></div><p>${t.desc}</p><ul class="tips">${t.dicas.map(d=>`<li>${d}</li>`).join("")}</ul></div>`;}).join("")}
+      <p class="rnote">Estes níveis refletem as suas observações, não uma medição. Vale refazer em 3 ou 4 meses.</p>
+    </section>`;
+  }
+
+  /* ---------- 4. VISÃO INTEGRADA ---------- */
+  let integra = "";
+  if(f){
+    integra = `<section class="rep newpg">
+      ${brand}
+      <h2>Visão integrada de ${nome}</h2>
+      <p class="rmeta">O que o jeito de aprender e as habilidades dizem juntos.</p>
+      <h3>${nome} em três situações</h3>
+      <div class="cross"><div class="tag"><span>Ao aprender algo novo</span></div><p>${I.comeco}</p></div>
+      <div class="cross"><div class="tag"><span>Quando erra</span></div><p>${I.erroBase}${I.erroOti}</p></div>
+      <div class="cross"><div class="tag"><span>Em tarefas longas</span></div><p>${I.longa}</p></div>
+      ${I.fortes.length?`<h3>Como as habilidades e o perfil se apoiam</h3>${I.fortes.map(h=>`<div class="cross"><div class="tag"><span>${I.tl(h.t)}</span><span>Aparece com frequência</span></div><p>${h.txt}</p></div>`).join("")}`:""}
+      ${I.hObs.length?`<h3>Hipóteses para experimentar</h3><p class="note">Não são conclusões: são ideias para testar e ver o que funciona.</p>${I.hObs.map(h=>I.card(h,"")).join("")}`:""}
+      ${I.hMid.length?`<h3>Para fortalecer</h3>${I.hMid.map(h=>I.card(h,"")).join("")}`:""}
+      <h3>Pontos de apoio</h3>
+      <div class="cross"><p><b>${I.tl(I.topF)}</b> foi a habilidade que mais apareceu. Lembre ${nome} disso quando surgir um desafio: {ela} já sabe fazer algo parecido.</p>
+      ${I.marcados.length?`<p>O interesse por <b>${MI[I.marcados[0]].nome.toLowerCase()}</b> pode ser porta de entrada para os conteúdos mais difíceis: ${MI[I.marcados[0]].dicas}.</p>`:""}</div>
+    </section>`;
+  }
+
+  /* ---------- 5. PLANO + 6. VOCÊ E A CRIANÇA ---------- */
+  const planoSec = `<section class="rep">
+    ${brand}
+    <h2>Plano para esta semana</h2>
+    ${c.plano?`<p class="rmeta">Criado em ${fmt(c.plano.data)}</p>`:""}
+    ${plano.length?`<ul class="rcheck">${plano.map(it=>`<li><span class="sq"></span><span>${esc(gx(it.txt,c))}<span class="opts2">${it.status==="sim"?"✓ Funcionou":it.status==="nao"?"✕ Não funcionou desta vez":"☐ Funcionou    ☐ Não funcionou"}</span></span></li>`).join("")}</ul>`:`<p class="note">Todas as ideias disponíveis já foram testadas.</p>`}
+    ${desc.length?`<h3>O que já descobrimos sobre ${nome}</h3><ul class="found">${desc.map(d=>`<li><span class="mk ${d.status==="sim"?"ok":"no"}">${d.status==="sim"?"✓":"✕"}</span><span>${esc(gx(d.txt,c))} <span class="note">${d.status==="sim"?"funcionou":"não funcionou"}, ${fmt(d.data)}</span></span></li>`).join("")}</ul>`:""}
+    ${c.parent?`<h2 style="margin-top:24px">Você e ${nome}</h2>
+    <div class="rsnap"><div><small>Seu perfil</small><b>${nomePerfil(perfil(c.parent))}</b></div><div><small>Perfil de ${nome}</small><b>${nomePerfil(p)}</b></div></div>
+    ${maeTexto(c)}`:""}
+    <p class="rnote">Inspirado nos livros de Cynthia Ulrich Tobias e Paul Tough. As perguntas foram criadas a partir das ideias de cada autor e não são questionários oficiais. É uma ferramenta de observação e planejamento, não um teste psicológico ou diagnóstico. Se a criança tiver dificuldade persistente para ler, escrever, calcular, prestar atenção ou lembrar do que estudou, vale procurar uma avaliação profissional.</p>
+    <p class="rfoot">Como meu filho aprende? · Relatório de ${nome} · ${hoje}</p>
+  </section>`;
+
+  const tituloAnt = document.title;
+  go(`<div class="rtool noprint">
+      <button class="back" id="bk">‹ ${nome}</button>
+      <button class="btn ghost small" id="prR">Salvar resumo (1 página)</button>
+      <button class="btn small" id="prC">Salvar relatório completo</button>
+    </div>
+    <p class="rtip noprint">O <b>resumo</b> é ideal para mandar à avó, à professora ou deixar na geladeira. O <b>completo</b> traz tudo, com o resumo na primeira página. Na janela que abrir, escolha <b>Salvar como PDF</b> para guardar ou mandar por WhatsApp. Se o botão não funcionar, abra o app pelo navegador (Chrome ou Safari), e não por dentro do Instagram.</p>
+    ${resumo}${jeito}${habil}${integra}${planoSec}`);
+  document.title = `Relatório - ${c.nome}`;
+  $("bk").onclick=()=>{ document.title=tituloAnt; hub(id); };
+  const imprimir = (soResumo)=>{
+    document.body.classList.toggle("print-resumo", soResumo);
+    document.title = `${soResumo?"Resumo":"Relatório"} - ${c.nome}`;
+    window.print();
+  };
+  window.onafterprint = ()=>document.body.classList.remove("print-resumo");
+  $("prR").onclick=()=>imprimir(true);
+  $("prC").onclick=()=>imprimir(false);
+}
+
+home();
+})();
+</script>
+</body>
+</html>
